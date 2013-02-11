@@ -6,14 +6,22 @@
 </head>
 
 <body>
-<p>logged in:: {{msg}} </p>
-<a href="/logout/"><input type="button" value="logout" /></a><br  /><br  />
+{{msg}}<br  /><br  /><br  />
+<form action="/bycategory/" method="get" >
+<input type="text" name="category"  />enter category<br />
+<input type="submit"  />
+</form>
+<br /><br />
+<form action="/bysearch/" method="get" >
+<input type="text" name="cname"  />search<br />
+<input type="submit"  />
+</form>
 <p>courses</p>
 <ul>
 {% for row in results %}
     <a href="/course/{{row.0}}">{{row.1}}</a>
     <br  />{{row.2}}&nbsp;&nbsp;{{row.3}}&nbsp;&nbsp;{{row.4}}&nbsp;&nbsp;{{row.5}}&nbsp;&nbsp;{{row.6}}<br  />
-	<a href="/unenroll/{{row.0}}">unenroll</a><br  /><br  /><br  />
+	<a href="/enroll/{{row.0}}">enroll</a><br  /><br  /><br  />
 {% endfor %}
 </ul>
 

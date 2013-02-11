@@ -15,6 +15,14 @@ urlpatterns = patterns('',
     ('^trial/$', trial),
     ('^signuserin/$', signuserin),
     ('^logout/$', logout),
+    ('^tryhtml/$', tryhtml),
+    ('^allcourses/$', allcourses),
+    ('^createcourse/$', createcourse),
+    (r'^course/(\d+)/$', course),
+    (r'^enroll/(\d+)/$', enroll),
+    ('^addcourse/$', addcourse),
+    (r'^unenroll/(\d+)/$', unenroll),
+
 
 
 

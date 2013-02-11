@@ -1,4 +1,5 @@
 # Django settings for mysite project.
+import os.path
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -12,7 +13,7 @@ MANAGERS = ADMINS
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': '',                      # Or path to database file if using sqlite3.
+        'NAME': 'django_session',                      # Or path to database file if using sqlite3.
         'USER': 'root',                      # Not used with sqlite3.
         'PASSWORD': '',                  # Not used with sqlite3.
         'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
@@ -30,6 +31,8 @@ TIME_ZONE = 'America/Chicago'
 # http://www.i18nguy.com/unicode/language-identifiers.html
 LANGUAGE_CODE = 'en-us'
 
+#SITE_ROOT=os.path.join(os.path.dirname(__file__).replace('mysite',''), 'mysite').replace('\\','/')
+
 SITE_ID = 1
 
 # If you set this to False, Django will make some optimizations so as not
@@ -45,7 +48,8 @@ USE_TZ = True
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
-MEDIA_ROOT = ''
+
+MEDIA_ROOT = os.path.join(os.path.dirname(__file__).replace("mysite",''), "mysite/templates/").replace('\\','/')
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
@@ -64,7 +68,8 @@ STATIC_URL = '/static/'
 
 # Additional locations of static files
 STATICFILES_DIRS = (
-    'C:/djangotest/mysite/static',
+    os.path.join(os.path.dirname(__file__).replace('mysite',''), 'mysite/static/').replace('\\','/')
+    #'C:/djangotest/mysite/static',
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
@@ -104,10 +109,11 @@ ROOT_URLCONF = 'mysite.urls'
 # Python dotted path to the WSGI application used by Django's runserver.
 WSGI_APPLICATION = 'mysite.wsgi.application'
 
-import os.path
+
 
 TEMPLATE_DIRS = (
-    'C:/djangotest/mysite/templates/',
+    os.path.join(os.path.dirname(__file__).replace('mysite',''), 'mysite/templates/').replace('\\','/')
+    #'C:/djangotest/mysite/templates/',
 )
 
 INSTALLED_APPS = (
@@ -151,3 +157,9 @@ LOGGING = {
         },
     }
 }
+
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'godisdj007@gmail.com'
+EMAIL_HOST_PASSWORD = 'morzinraat@123'
+EMAIL_PORT = 587
