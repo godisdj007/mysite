@@ -57,10 +57,33 @@ def viewcourse(request,offset):
             msg="not enrolled to this course.. go back"
         else:
             sql="select l.*,cname from lessons as l,courses as c where l.cid='%d' \
-                    and c.cid ='%d' order by lno"%(offset,offset)
+                    and c.cid ='%d' and l.submitted_by=c.owner order by lno"%(offset,offset)
             cursor.execute(sql)
             results=cursor.fetchall()
+            sql="select l.*,cname from lessons as l,courses as c where l.cid='%d' \
+                    and c.cid ='%d' and l.submitted_by<>c.owner order by lno"%(offset,offset)
+            cursor.execute(sql)
+            newresults=cursor.fetchall()
             db.close()
-            return render_to_response('viewcourse.html',{'cid':offset,'results':results})
+            return render_to_response('viewcourse.html',{'cid':offset,'results':results,'newresults':newresults})
         return render_to_response('all courses.html',{'msg':msg})
 
+
+def forum(request,offset):
+    offset=int(offset)
+    if "umail" not in request.session or request.session['umail']=="":
+        return HttpResponseRedirect("/login/")
+    else:
+        db = MySQLdb.connect(user='root', db='mysite', passwd='', host='')
+        cursor = db.cursor()
+        sql="select cid from enrollments where cid='%d' and uid='%s'" %(offset,request.session['umail'])
+        cursor.execute(sql)
+        x = [row[0] for row in cursor.fetchall()]
+        if not x:
+            msg="not enrolled to this course.. go back"
+        else:
+            sql="select fno,cid,owner,fname,no_of_posts,start_date from forums where cid='%d'"%(offset)
+            cursor.execute(sql)
+            results=cursor.fetchall()
+            return render_to_response('forums.html',{'results':results})
+        return render_to_response('all courses.html',{'msg':msg})

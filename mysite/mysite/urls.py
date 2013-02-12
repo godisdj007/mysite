@@ -28,6 +28,9 @@ urlpatterns = patterns('',
     ('^yourcontents/$',yourcontents),
     (r'^deletecourse/(\d+)/$', deletecourse),
     (r'^viewcourse/(\d+)/$', viewcourse),
+    (r'^byuser/(\S+)/$', byuser),
+    (r'^forum/(\d+)/$', forum),
+
 
 
 )

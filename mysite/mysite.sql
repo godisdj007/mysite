@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Feb 12, 2013 at 09:42 AM
+-- Generation Time: Feb 12, 2013 at 04:06 PM
 -- Server version: 5.5.21
 -- PHP Version: 5.3.10
 
@@ -119,7 +119,7 @@ CREATE TABLE IF NOT EXISTS `lessons` (
   `postdate` date NOT NULL,
   `filetype` varchar(10) NOT NULL,
   `filename` varchar(100) NOT NULL,
-  `submitted_by` varchar(20) DEFAULT NULL,
+  `submitted_by` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`cid`,`lno`),
   KEY `submitted_by` (`submitted_by`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -129,7 +129,8 @@ CREATE TABLE IF NOT EXISTS `lessons` (
 --
 
 INSERT INTO `lessons` (`cid`, `lno`, `lname`, `ldesc`, `postdate`, `filetype`, `filename`, `submitted_by`) VALUES
-(11, 1, 'Merge Sort Motivation and Example', 'merge sort example', '2013-02-12', 'video', '1 - 3 - Merge Sort Motivation and Example (9 min).mp4', NULL);
+(11, 1, 'Merge Sort Motivation and Example', 'merge sort example', '2013-02-12', 'video', '1 - 3 - Merge Sort Motivation and Example (9 min).mp4', 'godisdj.cobain@gmail.com'),
+(11, 2, '1 - 4 - Merge Sort Pseudocode (13 min)', 'desc of merge sort', '2013-02-12', 'video', '1 - 4 - Merge Sort Pseudocode (13 min).mp4', 'godisdj007@gmail.com');
 
 -- --------------------------------------------------------
 
@@ -192,8 +193,8 @@ ALTER TABLE `forums`
 -- Constraints for table `lessons`
 --
 ALTER TABLE `lessons`
-  ADD CONSTRAINT `lessons_ibfk_2` FOREIGN KEY (`submitted_by`) REFERENCES `users` (`email`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `lessons_ibfk_1` FOREIGN KEY (`cid`) REFERENCES `courses` (`cid`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `lessons_ibfk_1` FOREIGN KEY (`cid`) REFERENCES `courses` (`cid`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `lessons_ibfk_2` FOREIGN KEY (`submitted_by`) REFERENCES `users` (`email`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

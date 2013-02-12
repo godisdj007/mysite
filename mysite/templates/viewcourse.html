@@ -45,12 +45,36 @@ xmlhttp.send();
 <input type="text" id="ratebox"  /><br  />
 <input type="button" onclick="rating()" value=" rate " />
 <br  />
+<a href="/forum/{{cid}}" >forums</a>
 <p>lessons::</p>
 <ul>
 {% for row in results %}
     <p>lesson :: {{row.1}}</p>
-    <br  />{{row.2}}&nbsp;&nbsp;{{row.3}}&nbsp;&nbsp;{{row.4}}&nbsp;&nbsp;{{row.5}}&nbsp;&nbsp;<br  />
-    <a href="/static/lessons/{{row.7}}/{{row.6}}">view lesson</a>
+    <b>{{row.2}}</b><br  />&nbsp;&nbsp;{{row.3}}<br  />&nbsp;&nbsp;{{row.4}}<br  />&nbsp;&nbsp;{{row.5}}<br  />
+    submitted by ::<a href="/byuser/{{row.7}} ">{{row.7}}<br  />
+    <a href="/static/lessons/{{row.8}}/{{row.6}}">download lesson</a><br  />
+    {% ifequal row.5 'video' %}
+    		<video width="320" height="240" controls>
+  			<source src="/static/lessons/{{row.8}}/{{row.6}}" type="video/mp4">
+  			Your browser does not support the video tag.
+			</video>
+    {% endifequal %}
+{% endfor %}
+</ul>
+<br  /><br  />
+<p>contributions by users::</p>
+<ul>
+{% for row in newresults %}
+    <p>lesson :: {{row.1}}</p>
+    <b>{{row.2}}</b><br  />&nbsp;&nbsp;{{row.3}}<br  />&nbsp;&nbsp;{{row.4}}<br  />&nbsp;&nbsp;{{row.5}}<br  />
+    submitted by ::<a href="/byuser/{{row.7}} "> {{row.7}}<br  />
+    <a href="/static/lessons/{{row.8}}/{{row.6}}">view lesson</a><br  />
+    {% ifequal row.5 'video' %}
+    		<video width="320" height="240" controls>
+  			<source src="/static/lessons/{{row.8}}/{{row.6}}" type="video/mp4">
+  			Your browser does not support the video tag.
+			</video>
+    {% endifequal %}
 {% endfor %}
 </ul>
 <br  /><br  />

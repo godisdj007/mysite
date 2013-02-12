@@ -239,3 +239,18 @@ def unenroll(request, offset):
                 db.commit()
         db.close()
     return render_to_response('all courses.html',{'msg':msg})
+
+
+def byuser(request, offset):
+    offset=str(offset)
+    db = MySQLdb.connect(user='root', db='mysite', passwd='', host='')
+    cursor = db.cursor()
+    sql="select * from courses where owner='%s'"%offset
+    cursor.execute(sql)
+    results=cursor.fetchall()
+    sql="select l.* from courses as c,lessons as l where l.cid=c.cid and submitted_by='%s' and submitted_by<>c.owner"%offset
+    cursor.execute(sql)
+    newresults=cursor.fetchall()
+    db.close()
+    return render_to_response('byuser.html',{'results':results,'newresults':newresults})
+
