@@ -8,16 +8,21 @@ import datetime
 
 @csrf_exempt
 def trial(request):
-    file=request.FILES['docfile']
-    fd = open('%s/%s' % ("c:/djangotest", file), 'wb')
-    fd.write(file)
-    fd.close()
+    #file=request.FILES['docfile']
+    #fd = open('%s/%s' % ("c:/djangotest", file), 'wb')
+    #fd.write(file)
+    #fd.close()
+    return HttpResponseRedirect("/static/")
 
 def tryhtml(request):
     return render_to_response('try.html',{'msg':""})
 
 def home(request):
-    return render_to_response('index.html',)
+    if "umail" in request.session:
+        msg=request.session["umail"]
+    else:
+        msg=False
+    return render_to_response('index.html',{'msg': msg})
 
 def signup(request):
     return render_to_response('signup.html',)
@@ -32,10 +37,27 @@ def loggedin(request):
         sql = "SELECT c.* FROM courses as c,enrollments as e where e.uid='%s' and e.cid=c.cid" %(request.session['umail'])
         cursor.execute(sql)
         results = cursor.fetchall()
+
+        sql = "SELECT distinct category from courses"
+        cursor.execute(sql)
+        newresults = cursor.fetchall()
         db.close()
-        return render_to_response('loggedin.html',{'msg': "logged  "+request.session['umail'] ,'results':results})
+        return render_to_response('loggedin.html',{'msg': "logged  "+request.session['umail'] ,'results':results,'newresults':newresults})
     else:
-        return render_to_response('loggedin.html',{'msg': "not logged in"})
+        return render_to_response('loggedin.html',{'msg': False})
+
+def yourcontents(request):
+    if "umail" in request.session and request.session['umail']!="":
+        db = MySQLdb.connect("localhost","root","","mysite" )
+        cursor = db.cursor()
+        sql = "SELECT * FROM courses where owner='%s'" %(request.session['umail'])
+        cursor.execute(sql)
+        results = cursor.fetchall()
+        db.close()
+        return render_to_response('yourcontent.html',{'msg': "logged  "+request.session['umail'],'results':results})
+    else:
+        return render_to_response('login.html',{'msg': "please log in"})
+
 
 def adduser(request):
     if  request.GET['email']!="" and request.GET['uname']!="" and request.GET['pass']!="":
@@ -84,11 +106,28 @@ def signuserin(request):
 
 
 def logout(request):
-    del request.session["umail"]
-    return render_to_response('index.html',)
+    if "umail" in request.session:
+        del request.session["umail"]
+    return HttpResponseRedirect('/home/')
 
+def bycategory(request):
+    category=request.GET["category"]
+    db = MySQLdb.connect("localhost","root","","mysite" )
+    cursor = db.cursor()
+    sql = "SELECT * FROM courses where category='%s'"%(category)
+    try:
+        cursor.execute(sql)
+        results = cursor.fetchall()
+    except:
+        print "Error: unable to fetch data"
+    db.close()
+    return render_to_response('all courses.html',{'results':results})
 
 def allcourses(request):
+    if "umail" in request.session and request.session['umail']!="":
+        umail=request.session["umail"]
+    else:
+        umail=False
     db = MySQLdb.connect("localhost","root","","mysite" )
     cursor = db.cursor()
     sql = "SELECT * FROM courses"
@@ -98,13 +137,16 @@ def allcourses(request):
     except:
         print "Error: unable to fetch data"
     db.close()
-    return render_to_response('all courses.html',{'results':results})
+    return render_to_response('all courses.html',{'results':results,'msg':umail})
 
 def createcourse(request):
     if "umail" not in request.session:
         return HttpResponseRedirect("/login/")
     else:
         return render_to_response('createcourse.html',{'msg':""})
+
+
+
 
 def addcourse(request):
     if  request.GET['cname']!="" and request.GET['category']!="" :
@@ -130,21 +172,25 @@ def addcourse(request):
         msg = 'You submitted an empty form go back.'
     return HttpResponse(msg)
 
-def course(request, offset):
-    if "umail" not in request.session:
-        return HttpResponseRedirect("/login/")
-    else:
+def deletecourse(request,offset):
+    if "umail" in request.session:
         db = MySQLdb.connect(user='root', db='mysite', passwd='', host='')
         cursor = db.cursor()
-        sql="select cid from enrollments where cid='"+offset+"' and uid='"+request.session["umail"]+"'"
+        cid=int(offset)
+        sql="select owner from courses where cid='%d'"%(cid)
         cursor.execute(sql)
-        x = [row[0] for row in cursor.fetchall()]
-        db.close()
-        if not x:
-            msg="not enrolled to this course.. go back"
+        result=cursor.fetchall()
+        if request.session["umail"]!=result[0][0]:
+            return HttpResponse("u are not the owner")
         else:
-            return render_to_response('course.html',{'msg':offset})
-        return render_to_response('all courses.html',{'msg':msg})
+            sql="delete from courses where cid='%d'"%(cid)
+            cursor.execute(sql)
+            db.commit()
+            return HttpResponse("deleted")
+
+    else:
+        return render_to_response('login.html',{'msg': "please log in"})
+
 
 def enroll(request, offset):
     if "umail" not in request.session or request.session['umail']=="":

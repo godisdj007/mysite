@@ -23,7 +23,7 @@
       <file leaf-file-name="settings.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mysite/settings.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="51" column="91" selection-start="1898" selection-end="1898" vertical-scroll-proportion="0.0">
+            <state line="70" column="36" selection-start="2556" selection-end="2556" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -32,10 +32,21 @@
       <file leaf-file-name="views.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="77" column="48" selection-start="2884" selection-end="2884" vertical-scroll-proportion="0.5641026">
+            <state line="17" column="31" selection-start="532" selection-end="532" vertical-scroll-proportion="-0.76836157">
+              <folding>
+                <element signature="e#1647#2167#0" expanded="false" />
+                <element signature="e#2196#3213#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="courseview.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/courseview.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="59" column="36" selection-start="2184" selection-end="2184" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="e#0#47#0" expanded="true" />
-                <element signature="e#597#638#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -44,7 +55,7 @@
       <file leaf-file-name="urls.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mysite/urls.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="23" column="37" selection-start="675" selection-end="675" vertical-scroll-proportion="0.0">
+            <state line="29" column="25" selection-start="883" selection-end="883" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -62,9 +73,11 @@
       <list>
         <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/templates/current.html" />
-        <option value="$PROJECT_DIR$/mysite/settings.py" />
+        <option value="$PROJECT_DIR$/course view.py" />
         <option value="$PROJECT_DIR$/mysite/urls.py" />
         <option value="$PROJECT_DIR$/views.py" />
+        <option value="$PROJECT_DIR$/mysite/settings.py" />
+        <option value="$PROJECT_DIR$/courseview.py" />
       </list>
     </option>
   </component>
@@ -100,6 +113,7 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -148,12 +162,23 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
+    <property name="options.splitter.main.proportions" value="0.3" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="recentsLimit" value="5" />
+    <property name="options.lastSelected" value="web.server" />
+    <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="options.searchVisible" value="true" />
+  </component>
+  <component name="PyConsoleOptionsProvider">
+    <option name="myPythonConsoleState">
+      <PyConsoleSettings />
+    </option>
+    <option name="myDjangoConsoleState">
+      <PyConsoleSettings />
+    </option>
   </component>
   <component name="RunManager" selected="Django server.mysite">
     <configuration default="true" type="PythonConfigurationType" factoryName="Python">
@@ -255,7 +280,9 @@
       <option name="runNoReload" value="false" />
       <option name="useCustomRunCommand" value="false" />
       <option name="customRunCommand" value="" />
+      <RunnerSettings RunnerId="PyDebugRunner" />
       <RunnerSettings RunnerId="PythonRunner" />
+      <ConfigurationWrapper RunnerId="PyDebugRunner" />
       <ConfigurationWrapper RunnerId="PythonRunner" />
       <method />
     </configuration>
@@ -298,11 +325,11 @@
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.29242423" sideWeight="0.6712329" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.30151516" sideWeight="0.6712329" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3989726" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32876712" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32876712" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32876712" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -366,16 +393,6 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="75" column="13" selection-start="2635" selection-end="2635" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#0#47#0" expanded="true" />
-            <element signature="e#597#638#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/mysite/settings.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="83" column="0" selection-start="2956" selection-end="2956" vertical-scroll-proportion="0.0">
@@ -394,8 +411,8 @@
       <provider selected="true" editor-type-id="text-editor">
         <state line="59" column="0" selection-start="2081" selection-end="2081" vertical-scroll-proportion="0.0">
           <folding>
-            <element signature="e#0#47#0" expanded="true" />
-            <element signature="e#597#638#0" expanded="false" />
+            <element signature="e#1647#2167#0" expanded="false" />
+            <element signature="e#2196#3213#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -432,8 +449,8 @@
       <provider selected="true" editor-type-id="text-editor">
         <state line="79" column="0" selection-start="2633" selection-end="2633" vertical-scroll-proportion="0.0">
           <folding>
-            <element signature="e#0#47#0" expanded="true" />
-            <element signature="e#597#638#0" expanded="false" />
+            <element signature="e#1647#2167#0" expanded="false" />
+            <element signature="e#2196#3213#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -456,39 +473,46 @@
       <provider selected="true" editor-type-id="text-editor">
         <state line="7" column="18" selection-start="196" selection-end="196" vertical-scroll-proportion="0.0">
           <folding>
-            <element signature="e#0#47#0" expanded="true" />
-            <element signature="e#597#638#0" expanded="false" />
+            <element signature="e#1647#2167#0" expanded="false" />
+            <element signature="e#2196#3213#0" expanded="false" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mysite/settings.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="51" column="91" selection-start="1898" selection-end="1898" vertical-scroll-proportion="0.0">
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/all courses.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="28" column="7" selection-start="890" selection-end="890" vertical-scroll-proportion="0.7767355">
-          <folding />
-        </state>
+        <state line="28" column="7" selection-start="890" selection-end="890" vertical-scroll-proportion="0.7767355" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/mysite/urls.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="37" selection-start="675" selection-end="675" vertical-scroll-proportion="0.0">
+        <state line="29" column="25" selection-start="883" selection-end="883" vertical-scroll-proportion="0.0">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mysite/settings.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="70" column="36" selection-start="2556" selection-end="2556" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/courseview.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="59" column="36" selection-start="2184" selection-end="2184" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="e#0#47#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="77" column="48" selection-start="2884" selection-end="2884" vertical-scroll-proportion="0.5641026">
+        <state line="17" column="31" selection-start="532" selection-end="532" vertical-scroll-proportion="-0.76836157">
           <folding>
-            <element signature="e#0#47#0" expanded="true" />
-            <element signature="e#597#638#0" expanded="false" />
+            <element signature="e#1647#2167#0" expanded="false" />
+            <element signature="e#2196#3213#0" expanded="false" />
           </folding>
         </state>
       </provider>

@@ -8,31 +8,16 @@
 <body>
 <a href="/home/" >home</a><br /><br />
 
-{% if msg %}
-    <p><a href="/loggedin/">{{msg}}</a></p>
-    <a href="/logout/">logout</a>
-{% else %}
-	<a href="/login/">login</a>    
-{% endif %}
-<br  /><br  /><br  />
-<form action="/bycategory/" method="get" >
-<input type="text" name="category"  />enter category<br />
-<input type="submit"  />
-</form>
-<br /><br />
-<form action="/bysearch/" method="get" >
-<input type="text" name="cname"  />search<br />
-<input type="submit"  />
-</form>
-<p>courses</p>
+<p>logged in:: {{msg}} </p>
+<a href="/logout/"><input type="button" value="logout" /></a><br  /><br  />
+<p>courses::</p>
 <ul>
 {% for row in results %}
     <a href="/course/{{row.0}}">{{row.1}}</a>
     <br  />{{row.2}}&nbsp;&nbsp;{{row.3}}&nbsp;&nbsp;{{row.4}}&nbsp;&nbsp;{{row.5}}&nbsp;&nbsp;{{row.6}}<br  />
-	<a href="/enroll/{{row.0}}">enroll</a><br  /><br  /><br  />
+	<a href="/deletecourse/{{row.0}}">delete</a><br  /><br  /><br  />
 {% endfor %}
 </ul>
-
 
 </body>
 </html>

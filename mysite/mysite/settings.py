@@ -67,8 +67,10 @@ STATIC_ROOT = ''
 STATIC_URL = '/static/'
 
 # Additional locations of static files
+
+#DONT FORGET TO PUT COMMA!!!!!!!!!!!
 STATICFILES_DIRS = (
-    os.path.join(os.path.dirname(__file__).replace('mysite',''), 'mysite/static/').replace('\\','/')
+    os.path.join(os.path.dirname(__file__).replace('mysite',''), 'mysite/static/').replace('\\','/'),
     #'C:/djangotest/mysite/static',
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
@@ -160,6 +162,6 @@ LOGGING = {
 
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'godisdj007@gmail.com'
-EMAIL_HOST_PASSWORD = 'morzinraat@123'
+EMAIL_HOST_USER = 'mailportal1988@gmail.com'
+EMAIL_HOST_PASSWORD = 'morzinraat'
 EMAIL_PORT = 587

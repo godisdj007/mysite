@@ -5,6 +5,7 @@ from django.conf.urls import patterns, include, url
 # admin.autodiscover()
 
 from views import *
+from courseview import *
 
 urlpatterns = patterns('',
     ('^home/$', home),
@@ -22,8 +23,11 @@ urlpatterns = patterns('',
     (r'^enroll/(\d+)/$', enroll),
     ('^addcourse/$', addcourse),
     (r'^unenroll/(\d+)/$', unenroll),
-
-
+    ('^submitrating/$', submitrating),
+    ('^bycategory/$',bycategory),
+    ('^yourcontents/$',yourcontents),
+    (r'^deletecourse/(\d+)/$', deletecourse),
+    (r'^viewcourse/(\d+)/$', viewcourse),
 
 
 )
