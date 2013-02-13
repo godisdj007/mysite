@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Feb 12, 2013 at 07:03 PM
+-- Generation Time: Feb 13, 2013 at 05:16 PM
 -- Server version: 5.5.21
 -- PHP Version: 5.3.10
 
@@ -103,7 +103,7 @@ CREATE TABLE IF NOT EXISTS `forums` (
   PRIMARY KEY (`fno`),
   KEY `cid` (`cid`),
   KEY `owner` (`owner`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
 
 --
 -- Dumping data for table `forums`
@@ -119,14 +119,26 @@ INSERT INTO `forums` (`fno`, `cid`, `owner`, `fname`, `no_of_posts`, `start_date
 --
 
 CREATE TABLE IF NOT EXISTS `forumsposts` (
-  `pno` int(30) NOT NULL AUTO_INCREMENT,
+  `pno` bigint(30) NOT NULL AUTO_INCREMENT,
   `cid` int(30) NOT NULL,
-  `fno` int(30) NOT NULL,
+  `fno` bigint(30) NOT NULL,
   `posted_by` varchar(30) NOT NULL,
   `posted_on` date NOT NULL,
   `likes` int(30) DEFAULT '0',
-  PRIMARY KEY (`pno`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+  `content` varchar(300) NOT NULL,
+  PRIMARY KEY (`pno`),
+  KEY `cid` (`cid`),
+  KEY `fno` (`fno`),
+  KEY `posted_by` (`posted_by`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+
+--
+-- Dumping data for table `forumsposts`
+--
+
+INSERT INTO `forumsposts` (`pno`, `cid`, `fno`, `posted_by`, `posted_on`, `likes`, `content`) VALUES
+(2, 11, 2, 'godisdj.cobain@gmail.com', '2013-02-13', 0, 'asldkjasdlkhdkhjdlkasjdlj'),
+(3, 11, 2, 'godisdj.cobain@gmail.com', '2013-02-13', 0, 'post added 1');
 
 -- --------------------------------------------------------
 
@@ -143,6 +155,7 @@ CREATE TABLE IF NOT EXISTS `lessons` (
   `filetype` varchar(10) NOT NULL,
   `filename` varchar(100) NOT NULL,
   `submitted_by` varchar(30) DEFAULT NULL,
+  `likes` int(30) DEFAULT '0',
   PRIMARY KEY (`cid`,`lno`),
   KEY `submitted_by` (`submitted_by`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -151,10 +164,10 @@ CREATE TABLE IF NOT EXISTS `lessons` (
 -- Dumping data for table `lessons`
 --
 
-INSERT INTO `lessons` (`cid`, `lno`, `lname`, `ldesc`, `postdate`, `filetype`, `filename`, `submitted_by`) VALUES
-(11, 0, 'introduction', 'this lesson gives you a brief introduction of the course', '2013-02-12', 'pdf', 'slides_algo-intro-annotated-final.pdf', 'godisdj.cobain@gmail.com'),
-(11, 1, 'Merge Sort Motivation and Example', 'merge sort example', '2013-02-12', 'video', '1 - 3 - Merge Sort Motivation and Example (9 min).mp4', 'godisdj.cobain@gmail.com'),
-(11, 2, '1 - 4 - Merge Sort Pseudocode (13 min)', 'desc of merge sort', '2013-02-12', 'video', '1 - 4 - Merge Sort Pseudocode (13 min).mp4', 'godisdj007@gmail.com');
+INSERT INTO `lessons` (`cid`, `lno`, `lname`, `ldesc`, `postdate`, `filetype`, `filename`, `submitted_by`, `likes`) VALUES
+(11, 0, 'introduction', 'this lesson gives you a brief introduction of the course', '2013-02-12', 'pdf', 'slides_algo-intro-annotated-final.pdf', 'godisdj.cobain@gmail.com', 0),
+(11, 1, 'Merge Sort Motivation and Example', 'merge sort example', '2013-02-12', 'video', '1 - 3 - Merge Sort Motivation and Example (9 min).mp4', 'godisdj.cobain@gmail.com', 0),
+(11, 2, '1 - 4 - Merge Sort Pseudocode (13 min)', 'desc of merge sort', '2013-02-12', 'video', '1 - 4 - Merge Sort Pseudocode (13 min).mp4', 'godisdj007@gmail.com', 0);
 
 -- --------------------------------------------------------
 
@@ -210,8 +223,16 @@ ALTER TABLE `feedbacks`
 -- Constraints for table `forums`
 --
 ALTER TABLE `forums`
-  ADD CONSTRAINT `forums_ibfk_2` FOREIGN KEY (`owner`) REFERENCES `users` (`email`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `forums_ibfk_1` FOREIGN KEY (`cid`) REFERENCES `courses` (`cid`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `forums_ibfk_1` FOREIGN KEY (`cid`) REFERENCES `courses` (`cid`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `forums_ibfk_2` FOREIGN KEY (`owner`) REFERENCES `users` (`email`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `forumsposts`
+--
+ALTER TABLE `forumsposts`
+  ADD CONSTRAINT `forumsposts_ibfk_1` FOREIGN KEY (`cid`) REFERENCES `courses` (`cid`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `forumsposts_ibfk_2` FOREIGN KEY (`posted_by`) REFERENCES `users` (`email`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `forumsposts_ibfk_3` FOREIGN KEY (`fno`) REFERENCES `forums` (`fno`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `lessons`
