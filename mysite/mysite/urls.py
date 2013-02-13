@@ -6,6 +6,7 @@ from django.conf.urls import patterns, include, url
 
 from views import *
 from courseview import *
+from forumsview import *
 
 urlpatterns = patterns('',
     ('^home/$', home),
@@ -30,6 +31,9 @@ urlpatterns = patterns('',
     (r'^viewcourse/(\d+)/$', viewcourse),
     (r'^byuser/(\S+)/$', byuser),
     (r'^forum/(\d+)/$', forum),
+    ('^addforum/$',addforum),
+    ('^viewforum/$',viewforum),
+    ('^addpost/$',addpost),
 
 
 

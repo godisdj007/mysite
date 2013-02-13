@@ -12,7 +12,9 @@ def trial(request):
     #fd = open('%s/%s' % ("c:/djangotest", file), 'wb')
     #fd.write(file)
     #fd.close()
-    return HttpResponseRedirect("/static/")
+    string = ";;;asddd!!@@@pagal__     _pop__??"
+    string2=''.join(e for e in string if e.isalnum())
+    return HttpResponse(string2)
 
 def tryhtml(request):
     return render_to_response('try.html',{'msg':""})

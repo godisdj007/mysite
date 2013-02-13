@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Feb 12, 2013 at 04:06 PM
+-- Generation Time: Feb 12, 2013 at 07:03 PM
 -- Server version: 5.5.21
 -- PHP Version: 5.3.10
 
@@ -96,13 +96,36 @@ CREATE TABLE IF NOT EXISTS `feedbacks` (
 CREATE TABLE IF NOT EXISTS `forums` (
   `fno` bigint(100) NOT NULL AUTO_INCREMENT,
   `cid` int(30) NOT NULL,
-  `owner` int(30) NOT NULL,
+  `owner` varchar(30) NOT NULL,
   `fname` varchar(100) NOT NULL,
-  `no_of_posts` int(30) NOT NULL,
+  `no_of_posts` int(30) NOT NULL DEFAULT '0',
   `start_date` date NOT NULL,
   PRIMARY KEY (`fno`),
   KEY `cid` (`cid`),
   KEY `owner` (`owner`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+
+--
+-- Dumping data for table `forums`
+--
+
+INSERT INTO `forums` (`fno`, `cid`, `owner`, `fname`, `no_of_posts`, `start_date`) VALUES
+(2, 11, 'godisdj007@gmail.com', 'what is the syllabus for this course?', 0, '2013-02-12');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `forumsposts`
+--
+
+CREATE TABLE IF NOT EXISTS `forumsposts` (
+  `pno` int(30) NOT NULL AUTO_INCREMENT,
+  `cid` int(30) NOT NULL,
+  `fno` int(30) NOT NULL,
+  `posted_by` varchar(30) NOT NULL,
+  `posted_on` date NOT NULL,
+  `likes` int(30) DEFAULT '0',
+  PRIMARY KEY (`pno`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -129,6 +152,7 @@ CREATE TABLE IF NOT EXISTS `lessons` (
 --
 
 INSERT INTO `lessons` (`cid`, `lno`, `lname`, `ldesc`, `postdate`, `filetype`, `filename`, `submitted_by`) VALUES
+(11, 0, 'introduction', 'this lesson gives you a brief introduction of the course', '2013-02-12', 'pdf', 'slides_algo-intro-annotated-final.pdf', 'godisdj.cobain@gmail.com'),
 (11, 1, 'Merge Sort Motivation and Example', 'merge sort example', '2013-02-12', 'video', '1 - 3 - Merge Sort Motivation and Example (9 min).mp4', 'godisdj.cobain@gmail.com'),
 (11, 2, '1 - 4 - Merge Sort Pseudocode (13 min)', 'desc of merge sort', '2013-02-12', 'video', '1 - 4 - Merge Sort Pseudocode (13 min).mp4', 'godisdj007@gmail.com');
 
@@ -186,8 +210,8 @@ ALTER TABLE `feedbacks`
 -- Constraints for table `forums`
 --
 ALTER TABLE `forums`
-  ADD CONSTRAINT `forums_ibfk_1` FOREIGN KEY (`cid`) REFERENCES `courses` (`cid`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `forums_ibfk_2` FOREIGN KEY (`owner`) REFERENCES `users` (`uid`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `forums_ibfk_2` FOREIGN KEY (`owner`) REFERENCES `users` (`email`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `forums_ibfk_1` FOREIGN KEY (`cid`) REFERENCES `courses` (`cid`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `lessons`
