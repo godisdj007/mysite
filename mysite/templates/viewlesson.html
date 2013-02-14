@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+
+<script>
+function like()
+{
+var xmlhttp;
+if (window.XMLHttpRequest)
+  {// code for IE7+, Firefox, Chrome, Opera, Safari
+  xmlhttp=new XMLHttpRequest();
+  }
+else
+  {// code for IE6, IE5
+  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+  }
+xmlhttp.onreadystatechange=function()
+  {
+  if (xmlhttp.readyState==4 && xmlhttp.status==200)
+    {
+    document.getElementById("plikes").innerHTML=xmlhttp.responseText;
+	document.getElementById("btn").remove();
+    }
+  }
+xmlhttp.open("GET","/addlike/?lno={{lno}}",true);
+xmlhttp.send();
+}
+</script>
+
+</head>
+
+<body>
+{{msg}}
+{{results.0.0}}<br  />
+{{results.0.1}}<br  />
+{{results.0.2}}<br  />
+<a href="/static/lessons/{{cname}}/{{fname}}">download lesson</a><br  />
+{% ifequal results.0.2 'video' %}
+    		<video width="320" height="240" controls>
+  			<source src="/static/lessons/{{cname}}/{{fname}}" type="video/mp4">
+  			Your browser does not support the video tag.
+			</video>
+{% endifequal %}
+<br  /><br  />
+<input type="button" onclick="like()" value="like" id="btn"/>
+<p id="plikes">a</p>
+</body>
+</html>

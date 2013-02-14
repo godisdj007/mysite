@@ -34,7 +34,8 @@ urlpatterns = patterns('',
     ('^addforum/$',addforum),
     ('^viewforum/$',viewforum),
     ('^addpost/$',addpost),
-
+    (r'^viewlesson/$', viewlesson),
+    ('^addlike/$',addlike),
 
 
 )

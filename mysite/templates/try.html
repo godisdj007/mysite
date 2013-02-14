@@ -3,13 +3,72 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Untitled Document</title>
+
+<script>
+
+function dell()
+{	
+var xmlhttp;
+off=2;
+
+if (window.XMLHttpRequest)
+  {// code for IE7+, Firefox, Chrome, Opera, Safari
+  xmlhttp=new XMLHttpRequest();
+  }
+else
+  {// code for IE6, IE5
+  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+  }
+xmlhttp.onreadystatechange=function()
+  {
+  if (xmlhttp.readyState==4 && xmlhttp.status==200)
+    {
+    document.getElementById("newratebox").value=xmlhttp.responseText;
+    }
+  }
+
+xmlhttp.open("GET","/trial/?off="+off,true);
+xmlhttp.send();
+}
+
+
+function rating()
+{
+	
+var xmlhttp;
+off=1;
+
+if (window.XMLHttpRequest)
+  {// code for IE7+, Firefox, Chrome, Opera, Safari
+  xmlhttp=new XMLHttpRequest();
+  }
+else
+  {// code for IE6, IE5
+  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+  }
+xmlhttp.onreadystatechange=function()
+  {
+  if (xmlhttp.readyState==4 && xmlhttp.status==200)
+    {
+    document.getElementById("ratebox").value=xmlhttp.responseText;
+	dell();
+    }
+  }
+  
+xmlhttp.open("GET","/trial/?off="+off,true);
+xmlhttp.send();
+}
+</script>
+
 </head>
 
 <body>
 {{msg}}</p>
-<form action="/trial/" method="post" enctype="multipart/form-data">
-<input type="file" name="docfile"  />
-<input type="submit"  />
-</form>
+
+<input type="text" id="ratebox"  /><br  />
+<input type="text" id="newratebox"  /><br  />
+<input type="button" onclick="rating()" value=" rate " />
+
+<a href="/allcourses/" >asdasd</a>
 </body>
 </html>

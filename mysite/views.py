@@ -6,15 +6,18 @@ from django.core.mail import send_mail
 from django.views.decorators.csrf import csrf_exempt
 import datetime
 
+
+import time
 @csrf_exempt
 def trial(request):
-    #file=request.FILES['docfile']
-    #fd = open('%s/%s' % ("c:/djangotest", file), 'wb')
-    #fd.write(file)
-    #fd.close()
-    string = ";;;asddd!!@@@pagal__     _pop__??"
-    string2=''.join(e for e in string if e.isalnum())
-    return HttpResponse(string2)
+    off=int(request.GET["off"])
+    if off==1:
+        return HttpResponse("for 1")
+    else:
+        time.sleep(5)
+        return HttpResponse("for else")
+
+
 
 def tryhtml(request):
     return render_to_response('try.html',{'msg':""})
@@ -148,32 +151,6 @@ def createcourse(request):
         return render_to_response('createcourse.html',{'msg':""})
 
 
-
-
-def addcourse(request):
-    if  request.GET['cname']!="" and request.GET['category']!="" :
-        db = MySQLdb.connect(user='root', db='mysite', passwd='', host='')
-        cursor = db.cursor()
-        sql="select cname from courses where cname='"+request.GET['cname']+"'"
-        cursor.execute(sql)
-        x = [row[0] for row in cursor.fetchall()]
-        if x:
-            msg="course name already exists"
-            db.close()
-        else:
-            date=str(datetime.date.today())
-            sql="insert into courses(cname,owner,start_date,category,`desc`) \
-            values('"+request.GET['cname']+"','"+request.session["umail"]+"','"+date+"','"+request.GET['category']+"','"+request.GET['desc']+"');"
-            if cursor.execute(sql):
-                db.commit()
-                db.close()
-                return HttpResponseRedirect("/allcourses/")
-            else:
-                msg="sql fail"
-    else:
-        msg = 'You submitted an empty form go back.'
-    return HttpResponse(msg)
-
 def deletecourse(request,offset):
     if "umail" in request.session:
         db = MySQLdb.connect(user='root', db='mysite', passwd='', host='')
@@ -256,3 +233,81 @@ def byuser(request, offset):
     db.close()
     return render_to_response('byuser.html',{'results':results,'newresults':newresults})
 
+
+def mailtouser(usermail):
+    offset=str(usermail)
+    send_mail( 'Subject here', 'Here is the message.', '',[offset], fail_silently=False )
+
+
+def addcourse(request):
+    if "umail" not in request.session:
+        return HttpResponseRedirect("/login/")
+    else:
+        if  request.GET['cname']!="" and request.GET['category']!="" :
+            db = MySQLdb.connect(user='root', db='mysite', passwd='', host='')
+            cursor = db.cursor()
+            sql="select cname from courses where cname='"+request.GET['cname']+"'"
+            cursor.execute(sql)
+            x = [row[0] for row in cursor.fetchall()]
+            if x:
+                msg="course name already exists"
+                db.close()
+            else:
+                j=0
+                date=str(datetime.date.today())
+                cname=str(request.GET['cname'])
+                umail=str(request.session["umail"])
+                category=str(request.GET['category'])
+                desc=str(request.GET['desc'])
+                args=[cname,umail,date,category,desc]
+                sql="insert into courses(cname,owner,start_date,category,`desc`) \
+                values(%s,%s,%s,%s,%s)"
+                cursor.execute(sql,args)
+                db.commit()
+
+                sql="select cid from courses where cname=%s"
+                cursor.execute(sql,[cname])
+                results=cursor.fetchall()
+                cid=results[0][0]
+
+                words=['and','or','to','from','part1','the','a','of','with','without',\
+                       'for','in','how','as','not','why','what','who','which','through','&','at','behind','on',\
+                       'since','you','we','is','are','learn','-','be',':',',','.','lesson']
+                tags=cname.split(' ')
+                for item in tags:
+                    if item in words:
+                        tags.remove(item)
+                    else:
+                        sql="insert into coursetags values(%s,%s,'a')"
+                        args=[cid,item]
+                        try:
+                            cursor.execute(sql,args)
+                            db.commit()
+                        except:
+                            j+=1
+
+                tags=str(request.GET['tags'])
+                arr=tags.split('+')
+                for item in arr:
+                    sql="insert into coursetags values(%s,%s,'b')"
+                    args=[cid,item]
+                    try:
+                        cursor.execute(sql,args)
+                        db.commit()
+                    except:
+                        j+=1
+
+                sql="insert into coursetags values(%s,%s,'a')"
+                args=[cid,category]
+                try:
+                    cursor.execute(sql,args)
+                    db.commit()
+                except:
+                    j+=1
+
+
+                db.close()
+            return HttpResponseRedirect("/allcourses/")
+        else:
+            msg = 'You submitted an empty form go back.'
+        return HttpResponse(msg)

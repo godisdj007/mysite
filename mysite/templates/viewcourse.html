@@ -50,7 +50,8 @@ xmlhttp.send();
 <ul>
 {% for row in results %}
     <p>lesson :: {{row.1}}</p>
-    <b>{{row.2}}</b><br  />&nbsp;&nbsp;{{row.3}}<br  />&nbsp;&nbsp;{{row.4}}<br  />&nbsp;&nbsp;{{row.5}}<br  />
+    <b><a href="/viewlesson/?cname={{row.8}}&fname={{row.6}}&lno={{row.1}}">{{row.2}}</a>
+    </b><br  />&nbsp;&nbsp;{{row.3}}<br  />&nbsp;&nbsp;{{row.4}}<br  />&nbsp;&nbsp;{{row.5}}<br  />
     submitted by ::<a href="/byuser/{{row.7}} ">{{row.7}}<br  />
     <a href="/static/lessons/{{row.8}}/{{row.6}}">download lesson</a><br  />
     {% ifequal row.5 'video' %}
@@ -66,8 +67,10 @@ xmlhttp.send();
 <ul>
 {% for row in newresults %}
     <p>lesson :: {{row.1}}</p>
-    <b>{{row.2}}</b><br  />&nbsp;&nbsp;{{row.3}}<br  />&nbsp;&nbsp;{{row.4}}<br  />&nbsp;&nbsp;{{row.5}}<br  />
-    submitted by ::<a href="/byuser/{{row.7}} "> {{row.7}}<br  />
+    <b><a href="/viewlesson/?cname={{row.8}}&fname={{row.6}}&lno={{row.1}}">{{row.2}}</a>
+    </b><br  />&nbsp;&nbsp;{{row.3}}<br  />&nbsp;&nbsp;{{row.4}}<br  />&nbsp;&nbsp;{{row.5}}<br  />
+    submitted by ::<a href="/byuser/{{row.7}} "> {{row.7}}</a><br  />
+    likes::{{row.9}}<br  />
     <a href="/static/lessons/{{row.8}}/{{row.6}}">view lesson</a><br  />
     {% ifequal row.5 'video' %}
     		<video width="320" height="240" controls>

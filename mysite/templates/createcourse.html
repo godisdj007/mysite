@@ -3,14 +3,25 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Untitled Document</title>
+
+<script>
+function clr(ye)
+{
+ye.value="";
+}
+</script>
+
 </head>
 
 <body>
 <p>create course</p>
 <form action="/addcourse/" method="get" >
 <input type="text" name="cname"  />cname<br />
-<textarea name="desc" >add desc here</textarea><br />
+<textarea name="desc" onclick="clr(this)">add desc here</textarea><br />
 <input type="text" name="category"  />category<br />
+<textarea name="tags" rows="10" coulums="10" onclick="clr(this)">add tags separated by + for example:: 
+
+computers+website development+java</textarea><br />
 <input type="submit"  /><br />
 </body>
 </html>
