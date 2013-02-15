@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+
+<script>
+
+function newstart()
+{
+qry=document.getElementById("qry").innerHTML;
+var xmlhttp;
+if (window.XMLHttpRequest)
+  {// code for IE7+, Firefox, Chrome, Opera, Safari
+  xmlhttp=new XMLHttpRequest();
+  }
+else
+  {// code for IE6, IE5
+  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+  }
+xmlhttp.onreadystatechange=function()
+  {
+  if (xmlhttp.readyState==4 && xmlhttp.status==200)
+    {
+    document.getElementById("2results").innerHTML=xmlhttp.responseText;
+	
+    }
+  }
+xmlhttp.open("GET","/bsearchcourse/?cname="+qry,true);
+xmlhttp.send();
+
+}
+
+
+function start()
+{
+qry=document.getElementById("qry").innerHTML;
+var xmlhttp;
+if (window.XMLHttpRequest)
+  {// code for IE7+, Firefox, Chrome, Opera, Safari
+  xmlhttp=new XMLHttpRequest();
+  }
+else
+  {// code for IE6, IE5
+  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+  }
+xmlhttp.onreadystatechange=function()
+  {
+  if (xmlhttp.readyState==4 && xmlhttp.status==200)
+    {
+    document.getElementById("1results").innerHTML=xmlhttp.responseText;
+	newstart();
+    }
+  }
+xmlhttp.open("GET","/asearchcourse/?cname="+qry,true);
+xmlhttp.send();
+
+}
+</script>
+
+</head>
+
+<body>
+you searched for :: 
+<p id="qry" >{{qry}}</p>
+<p>results :: </p>
+{{results}}<br  /><br  />
+<button value=" more " onclick="start()" >more</button>
+<p id="1results"></p>
+<br  />
+<p id="2results"></p>
+</body>
+</html>

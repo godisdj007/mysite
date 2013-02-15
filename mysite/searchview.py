@@ -6,95 +6,132 @@ from django.core.mail import send_mail
 from django.views.decorators.csrf import csrf_exempt
 import datetime
 
-def submitrating(request):
-    score=float( request.GET["score"] )
-    cid=int( request.GET["cid"] )
+def searchcourse(request):
+    if "cname" in request.GET and request.GET["cname"]!="":
+        qry=str(request.GET["cname"])
+        db = MySQLdb.connect(user='root', db='mysite', passwd='', host='')
+        cursor = db.cursor()
+        sql="select cid,cname,owner,start_date,no_of_followers,category,rating \
+            from courses where cname = %s"
+        cursor.execute(sql,[qry])
+        results=cursor.fetchall()
+        return render_to_response('viewsearch.html',{'results':results,'qry':qry})
+
+
+def asearchcourse(request):
+    qry=str(request.GET["cname"])
+
+    words=['and','or','to','from','part1','the','a','of','with','without',\
+           'for','in','how','as','not','why','what','who','which','through','&','at','behind','on',\
+           'since','you','we','is','are','learn','-','be',':',',','.','lesson','your','ppp']
+    arr=qry.split(' ')
+
+    qqq=[""]
+    for item in arr:
+            if item in words:
+                arr.remove(item)
+
     db = MySQLdb.connect(user='root', db='mysite', passwd='', host='')
     cursor = db.cursor()
-    sql="select rating,raters from courses where cid='%d'"%(cid)
+    sql="select distinct cid from coursetags"
     cursor.execute(sql)
-    result=cursor.fetchall()
-    row=result[0]
-    rating = row[0]
-    raters = row[1]
-    raters=raters+1
-    rating=(rating*(raters-1)+score)/raters
-    sql="update courses set rating='%f',raters='%d' where cid='%d'"%(rating,raters,cid)
-    cursor.execute(sql)
-    db.commit()
+    results=cursor.fetchall()
+    for row in results:
+        count=0;
+        cid=row[0]
+        sql="select tag from coursetags where cid=%s and class='a'"
+        cursor.execute(sql,cid)
+        newresults=cursor.fetchall()
+        for newrow in newresults:
+                for item in arr:
+                    if item==newrow[0]:
+                        count+=3
+                    elif item.find(newrow[0])!=-1 or newrow[0].find(item)!=-1:
+                        count+=1
+        qqq.append(cid)
+        qqq.append(count)
+
+
     db.close()
-    return HttpResponse(rating)
-
-def course(request, offset):
-    if "umail" not in request.session:
-        return HttpResponseRedirect("/login/")
-    else:
-        offset=int(offset)
-        db = MySQLdb.connect(user='root', db='mysite', passwd='', host='')
-        cursor = db.cursor()
-        sql="select owner from courses where cid='%d'"%(offset)
-        cursor.execute(sql)
-        result=cursor.fetchall()
-        owner=result[0][0]
-        db.close()
-        if request.session['umail']!=owner:
-            return HttpResponseRedirect("/viewcourse/%d"%(offset))
-        else:
-            return HttpResponseRedirect("/viewcourse/%d"%(offset)) #to be changed to owners view
+    return HttpResponse([qqq])
 
 
-def viewcourse(request,offset):
-    offset=int(offset)
-    if "umail" not in request.session:
-        return HttpResponseRedirect("/login/")
-    else:
-        db = MySQLdb.connect(user='root', db='mysite', passwd='', host='')
-        cursor = db.cursor()
-        sql="select cid from enrollments where cid='%d' and uid='%s'" %(offset,request.session['umail'])
-        cursor.execute(sql)
-        x = [row[0] for row in cursor.fetchall()]
-        if not x:
-            msg="not enrolled to this course.. go back"
-        else:
-            sql="select l.cid,l.lno,lname,ldesc,l.postdate,filetype,filename,submitted_by,cname \
-            from lessons as l,courses as c \
-            where l.cid='%d' and c.cid ='%d' and l.submitted_by=c.owner order by lno"%(offset,offset)
-            cursor.execute(sql)
-            results=cursor.fetchall()
-            sql="select l.cid,l.lno,lname,ldesc,l.postdate,filetype,filename,submitted_by,cname,likes \
-            from lessons as l,courses as c \
-            where l.cid='%d' and c.cid ='%d' and l.submitted_by<>c.owner order by lno"%(offset,offset)
-            cursor.execute(sql)
-            newresults=cursor.fetchall()
-            db.close()
-            return render_to_response('viewcourse.html',{'cid':offset,'results':results,'newresults':newresults})
-        return render_to_response('all courses.html',{'msg':msg})
+def bsearchcourse(request):
+    qry=str(request.GET["cname"])
+
+    words=['and','or','to','from','part1','the','a','of','with','without',\
+           'for','in','how','as','not','why','what','who','which','through','&','at','behind','on',\
+           'since','you','we','is','are','learn','-','be',':',',','.','lesson','your','ppp']
+    arr=qry.split(' ')
+
+    qqq=[""]
+    for item in arr:
+        if item in words:
+            arr.remove(item)
+
+    db = MySQLdb.connect(user='root', db='mysite', passwd='', host='')
+    cursor = db.cursor()
+    sql="select distinct cid from coursetags"
+    cursor.execute(sql)
+    results=cursor.fetchall()
+    for row in results:
+        count=0;
+        cid=row[0]
+        sql="select tag from coursetags where cid=%s and class='b'"
+        cursor.execute(sql,cid)
+        newresults=cursor.fetchall()
+        for newrow in newresults:
+            for item in arr:
+                if item==newrow[0]:
+                    count+=3
+                elif item.find(newrow[0])!=-1 or newrow[0].find(item)!=-1:
+                    count+=1
+        qqq.append(cid)
+        qqq.append(count)
 
 
-def  viewlesson(request):
-    if "umail" not in request.session or request.session["umail"]=="":
-        return HttpResponseRedirect("/login/")
-    else:
-        cname=str(request.GET["cname"])
-        fname=str(request.GET["fname"])
-        lno=int(request.GET["lno"])
-        db = MySQLdb.connect(user='root', db='mysite', passwd='', host='')
-        cursor = db.cursor()
-        sql="select lname,ldesc,filetype from lessons where lno=%s"
-        cursor.execute(sql,[lno])
-        results=cursor.fetchall()
-        return render_to_response('viewlesson.html',{'results':results,'cname':cname,'fname':fname,'lno':lno})
+    db.close()
+    return HttpResponse([qqq])
 
 
-def  addlike(request):
-    if "umail" not in request.session or request.session["umail"]=="":
-        return HttpResponse("login to like")
-    else:
-        lno=int(request.GET["lno"])
-        db = MySQLdb.connect(user='root', db='mysite', passwd='', host='')
-        cursor = db.cursor()
-        sql="update lessons set likes=likes+1 where lno=%s"
-        cursor.execute(sql,[lno])
-        db.commit()
-        db.close()
-        return HttpResponse("added")
+
+def coursesrec(request):
+    qry=str(request.GET["cname"])
+
+    words=['and','or','to','from','part1','the','a','of','with','without',\
+           'for','in','how','as','not','why','what','who','which','through','&','at','behind','on',\
+           'since','you','we','is','are','learn','-','be',':',',','.','lesson','your','ppp']
+
+    qqq=[""]
+
+    db = MySQLdb.connect(user='root', db='mysite', passwd='', host='')
+    cursor = db.cursor()
+    sql="select tag from coursetags as x,courses as c where x.cid=c.cid and cname=%s"
+    cursor.execute(sql,[qry])
+    results=cursor.fetchall()
+    arr=[]
+    for row in results:
+        arr.append(row[0])
+
+
+    sql="select distinct x.cid from coursetags as x,courses as c where x.cid=c.cid and cname<>%s"
+    cursor.execute(sql,[qry])
+    results=cursor.fetchall()
+    for row in results:
+        count=0;
+        cid=row[0]
+        sql="select tag from coursetags as x where x.cid=%s and x.class='a'"
+        cursor.execute(sql,[cid])
+        newresults=cursor.fetchall()
+        for newrow in newresults:
+            for item in arr:
+                if item==newrow[0]:
+                    count+=3
+                elif item.find(newrow[0])!=-1 or newrow[0].find(item)!=-1:
+                    count+=1
+        qqq.append(cid)
+        qqq.append(count)
+
+
+    db.close()
+    return HttpResponse([qqq])

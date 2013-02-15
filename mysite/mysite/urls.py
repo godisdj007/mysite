@@ -7,6 +7,7 @@ from django.conf.urls import patterns, include, url
 from views import *
 from courseview import *
 from forumsview import *
+from searchview import *
 
 urlpatterns = patterns('',
     ('^home/$', home),
@@ -36,6 +37,10 @@ urlpatterns = patterns('',
     ('^addpost/$',addpost),
     (r'^viewlesson/$', viewlesson),
     ('^addlike/$',addlike),
+    ('^asearchcourse/$',asearchcourse),
+    ('^searchcourse/$',searchcourse),
+    ('^bsearchcourse/$',bsearchcourse),
+    ('^coursesrec/$',coursesrec),
 
 
 )

@@ -5,6 +5,34 @@
 <title>Untitled Document</title>
 
 <script>
+
+function start()
+{
+alert("as");
+var xmlhttp;
+qry=document.getElementById("qry").value;
+if (window.XMLHttpRequest)
+  {// code for IE7+, Firefox, Chrome, Opera, Safari
+  xmlhttp=new XMLHttpRequest();
+  }
+else
+  {// code for IE6, IE5
+  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+  }
+xmlhttp.onreadystatechange=function()
+  {
+  if (xmlhttp.readyState==4 && xmlhttp.status==200)
+    {
+    document.getElementById("1results").innerHTML=xmlhttp.responseText;
+	newstart();
+    }
+  }
+xmlhttp.open("GET","/asearchcourse/?cname="+qry,true);
+xmlhttp.send();
+alert("asd");
+}
+
+
 function rating()
 {
 var xmlhttp;
@@ -37,6 +65,7 @@ xmlhttp.send();
 </head>
 
 <body>
+<input type="text" id="qry" value="{{results.0.8}}"  />
 <a href="/home/" >home</a><br /><br />
 <input type="hidden" id="cid" value="{{cid}}"  /> 
 <p>course::</p>
@@ -52,14 +81,7 @@ xmlhttp.send();
     <p>lesson :: {{row.1}}</p>
     <b><a href="/viewlesson/?cname={{row.8}}&fname={{row.6}}&lno={{row.1}}">{{row.2}}</a>
     </b><br  />&nbsp;&nbsp;{{row.3}}<br  />&nbsp;&nbsp;{{row.4}}<br  />&nbsp;&nbsp;{{row.5}}<br  />
-    submitted by ::<a href="/byuser/{{row.7}} ">{{row.7}}<br  />
-    <a href="/static/lessons/{{row.8}}/{{row.6}}">download lesson</a><br  />
-    {% ifequal row.5 'video' %}
-    		<video width="320" height="240" controls>
-  			<source src="/static/lessons/{{row.8}}/{{row.6}}" type="video/mp4">
-  			Your browser does not support the video tag.
-			</video>
-    {% endifequal %}
+    submitted by ::<a href="/byuser/{{row.7}} ">{{row.7}}<br  /></a>
 {% endfor %}
 </ul>
 <br  /><br  />
@@ -71,16 +93,11 @@ xmlhttp.send();
     </b><br  />&nbsp;&nbsp;{{row.3}}<br  />&nbsp;&nbsp;{{row.4}}<br  />&nbsp;&nbsp;{{row.5}}<br  />
     submitted by ::<a href="/byuser/{{row.7}} "> {{row.7}}</a><br  />
     likes::{{row.9}}<br  />
-    <a href="/static/lessons/{{row.8}}/{{row.6}}">view lesson</a><br  />
-    {% ifequal row.5 'video' %}
-    		<video width="320" height="240" controls>
-  			<source src="/static/lessons/{{row.8}}/{{row.6}}" type="video/mp4">
-  			Your browser does not support the video tag.
-			</video>
-    {% endifequal %}
+    
 {% endfor %}
 </ul>
 <br  /><br  />
-
+<button onclick="start()">reccomended</button>
+<p id="1results"></p>
 </body>
 </html>
