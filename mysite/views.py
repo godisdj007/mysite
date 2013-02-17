@@ -6,18 +6,13 @@ from django.core.mail import send_mail
 from django.views.decorators.csrf import csrf_exempt
 import datetime
 
-
 import time
+
+
 @csrf_exempt
 def trial(request):
-    off=int(request.GET["off"])
-    if off==1:
-        return HttpResponse("for 1")
-    else:
-        time.sleep(5)
-        return HttpResponse("for else")
-
-
+    #os.remove("c:/djangotest/mysite/static/lessons/da/new.py")
+    return HttpResponse("done")
 
 def tryhtml(request):
     return render_to_response('try.html',{'msg':""})
@@ -270,14 +265,14 @@ def addcourse(request):
                 results=cursor.fetchall()
                 cid=results[0][0]
 
-                words=['and','or','to','from','part1','the','a','of','with','without',\
+                words=('and','or','to','from','part1','the','a','of','with','without',\
                        'for','in','how','as','not','why','what','who','which','through','&','at','behind','on',\
-                       'since','you','we','is','are','learn','-','be',':',',','.','lesson']
+                       'since','you','we','is','are','learn','-','be',':',',','.','lesson','your')
                 tags=cname.split(' ')
+                tags=set(tags)
+                tags=tags.difference(words)
+                tags=list(tags)
                 for item in tags:
-                    if item in words:
-                        tags.remove(item)
-                    else:
                         sql="insert into coursetags values(%s,%s,'a')"
                         args=[cid,item]
                         try:
@@ -311,3 +306,5 @@ def addcourse(request):
         else:
             msg = 'You submitted an empty form go back.'
         return HttpResponse(msg)
+
+

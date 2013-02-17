@@ -5,23 +5,19 @@ from django.core.validators import email_re
 from django.core.mail import send_mail
 from django.views.decorators.csrf import csrf_exempt
 import datetime
-from lsearchview import *
 
-def searchcourse(request):
-    if "cname" in request.GET and request.GET["cname"]!="":
-        qry=str(request.GET["cname"])
+def searchlesson(qry):
         db = MySQLdb.connect(user='root', db='mysite', passwd='', host='')
         cursor = db.cursor()
-        sql="select cid,cname,owner,start_date,no_of_followers,category,rating \
-            from courses where cname = %s"
+        sql="select *\
+            from lessons where lname = %s"
         cursor.execute(sql,[qry])
         results=cursor.fetchall()
-        newresults=searchlesson(qry)
-        return render_to_response('viewsearch.html',{'newresults':newresults,'results':results,'qry':qry})
+        return results
 
 
-def asearchcourse(request):
-    qry=str(request.GET["cname"])
+def asearchlesson(request):
+    qry=str(request.GET["lname"])
 
     words=('and','or','to','from','part1','the','a','of','with','without',\
            'for','in','how','as','not','why','what','who','which','through','&','at','behind','on',\
@@ -34,14 +30,14 @@ def asearchcourse(request):
 
     db = MySQLdb.connect(user='root', db='mysite', passwd='', host='')
     cursor = db.cursor()
-    sql="select distinct cid from coursetags"
+    sql="select distinct lno from lessontags"
     cursor.execute(sql)
     results=cursor.fetchall()
     for row in results:
         count=0;
-        cid=row[0]
-        sql="select tag from coursetags where cid=%s and class='a'"
-        cursor.execute(sql,cid)
+        lno=row[0]
+        sql="select tag from lessontags where lno=%s and class='a'"
+        cursor.execute(sql,lno)
         newresults=cursor.fetchall()
         for newrow in newresults:
                 for item in arr:
@@ -50,8 +46,8 @@ def asearchcourse(request):
                     elif item.find(newrow[0])!=-1 or newrow[0].find(item)!=-1:
                         if newrow[0].__len__()>3 and item.__len__()>3:
                             count+=1
-        sql="select * from courses where cid=%s"
-        cursor.execute(sql,cid)
+        sql="select * from lessons where lno=%s"
+        cursor.execute(sql,lno)
         roo=cursor.fetchall()
         www=[]
         www.append(count)
@@ -65,8 +61,8 @@ def asearchcourse(request):
     return HttpResponse(qqq)
 
 
-def bsearchcourse(request):
-    qry=str(request.GET["cname"])
+def bsearchlesson(request):
+    qry=str(request.GET["lname"])
 
     words=('and','or','to','from','part1','the','a','of','with','without',\
            'for','in','how','as','not','why','what','who','which','through','&','at','behind','on',\
@@ -79,14 +75,14 @@ def bsearchcourse(request):
 
     db = MySQLdb.connect(user='root', db='mysite', passwd='', host='')
     cursor = db.cursor()
-    sql="select distinct cid from coursetags"
+    sql="select distinct lno from lessontags"
     cursor.execute(sql)
     results=cursor.fetchall()
     for row in results:
         count=0;
-        cid=row[0]
-        sql="select tag from coursetags where cid=%s and class='b'"
-        cursor.execute(sql,cid)
+        lno=row[0]
+        sql="select tag from lessontags where lno=%s and class='b'"
+        cursor.execute(sql,lno)
         newresults=cursor.fetchall()
         for newrow in newresults:
             for item in arr:
@@ -95,8 +91,8 @@ def bsearchcourse(request):
                 elif item.find(newrow[0])!=-1 or newrow[0].find(item)!=-1:
                     if newrow[0].__len__()>3 and item.__len__()>3:
                         count+=1
-        sql="select * from courses where cid=%s"
-        cursor.execute(sql,cid)
+        sql="select * from lessons where lno=%s"
+        cursor.execute(sql,lno)
         roo=cursor.fetchall()
         www=[]
         www.append(count)
@@ -111,7 +107,7 @@ def bsearchcourse(request):
 
 
 
-def coursesrec(request):
+def lessonrec(request):
     qry=str(request.GET["cname"])
 
     qqq=[]

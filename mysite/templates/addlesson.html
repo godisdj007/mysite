@@ -1,0 +1,30 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+<script>
+function clr(ye)
+{
+ye.value="";
+}
+</script>
+
+</head>
+
+<body>
+<p>{{msg}}</p>
+<p>{{cid}}</p>
+
+<form id="uploader" action="/uploadlesson/" enctype="multipart/form-data" method="post">
+      <input type="text" name="lname" value="enter lname"/>
+      <textarea name="tags" rows="10" coulums="10" onclick="clr(this)">add tags separated by + for example::</textarea><br  />
+      <input type="text" name="ldesc" value="enter desc"/>
+      <input type="hidden" name="cid" value="{{cid}}"  />
+      <input type="file" name="uploaded"/><br />
+      <input type="submit" value="upload"/>
+</form>
+  
+
+</body>
+</html>

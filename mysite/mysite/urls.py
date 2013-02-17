@@ -8,6 +8,7 @@ from views import *
 from courseview import *
 from forumsview import *
 from searchview import *
+from lsearchview import *
 
 urlpatterns = patterns('',
     ('^home/$', home),
@@ -41,6 +42,11 @@ urlpatterns = patterns('',
     ('^searchcourse/$',searchcourse),
     ('^bsearchcourse/$',bsearchcourse),
     ('^coursesrec/$',coursesrec),
+    (r'^addlesson/(\d+)/$', addlesson),
+    ('^uploadlesson/$',uploadlesson),
+    (r'^removelesson/(\d+)/(\d+)/$', removelesson),
+    ('^asearchlesson/$',bsearchlesson),
+    ('^bsearchlesson/$',bsearchlesson),
 
 
 )

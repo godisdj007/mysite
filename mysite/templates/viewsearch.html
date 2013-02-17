@@ -5,6 +5,57 @@
 <title>Untitled Document</title>
 
 <script>
+function newstart2()
+{
+qry=document.getElementById("qry").innerHTML;
+var xmlhttp;
+if (window.XMLHttpRequest)
+  {// code for IE7+, Firefox, Chrome, Opera, Safari
+  xmlhttp=new XMLHttpRequest();
+  }
+else
+  {// code for IE6, IE5
+  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+  }
+xmlhttp.onreadystatechange=function()
+  {
+  if (xmlhttp.readyState==4 && xmlhttp.status==200)
+    {
+    document.getElementById("2results").innerHTML=xmlhttp.responseText;
+	
+    }
+  }
+xmlhttp.open("GET","/bsearchlesson/?lname="+qry,true);
+xmlhttp.send();
+
+}
+
+
+function start2()
+{
+qry=document.getElementById("qry").innerHTML;
+var xmlhttp;
+if (window.XMLHttpRequest)
+  {// code for IE7+, Firefox, Chrome, Opera, Safari
+  xmlhttp=new XMLHttpRequest();
+  }
+else
+  {// code for IE6, IE5
+  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+  }
+xmlhttp.onreadystatechange=function()
+  {
+  if (xmlhttp.readyState==4 && xmlhttp.status==200)
+    {
+    document.getElementById("1results").innerHTML=xmlhttp.responseText;
+	newstart();
+    }
+  }
+xmlhttp.open("GET","/asearchlesson/?lname="+qry,true);
+xmlhttp.send();
+
+}
+
 
 function newstart()
 {
@@ -69,5 +120,14 @@ you searched for ::
 <p id="1results"></p>
 <br  />
 <p id="2results"></p>
+<br  />
+lessons::<br  />
+{{newresults}}
+<p id="3results"></p>
+<br  />
+<p id="4results"></p>
+<br  />
+<button value=" more " onclick="start2()" >more</button>
+
 </body>
 </html>

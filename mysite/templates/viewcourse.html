@@ -27,7 +27,7 @@ xmlhttp.onreadystatechange=function()
 	newstart();
     }
   }
-xmlhttp.open("GET","/asearchcourse/?cname="+qry,true);
+xmlhttp.open("GET","/coursesrec/?cname="+qry,true);
 xmlhttp.send();
 alert("asd");
 }
@@ -65,6 +65,12 @@ xmlhttp.send();
 </head>
 
 <body>
+{% if admin %}
+	<a href="/addlesson/{{cid}}">add lesson</a>
+{% else %}
+	<a href="/addlesson/{{cid}}">contribute lesson</a>
+{% endif %}
+
 <input type="text" id="qry" value="{{results.0.8}}"  />
 <a href="/home/" >home</a><br /><br />
 <input type="hidden" id="cid" value="{{cid}}"  /> 
@@ -97,7 +103,7 @@ xmlhttp.send();
 {% endfor %}
 </ul>
 <br  /><br  />
-<button onclick="start()">reccomended</button>
+<button onclick="start()">recommended</button>
 <p id="1results"></p>
 </body>
 </html>

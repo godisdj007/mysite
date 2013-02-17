@@ -65,10 +65,15 @@ xmlhttp.send();
 <body>
 {{msg}}</p>
 
-<input type="text" id="ratebox"  /><br  />
-<input type="text" id="newratebox"  /><br  />
-<input type="button" onclick="rating()" value=" rate " />
-
-<a href="/allcourses/" >asdasd</a>
-</body>
+<form 
+      id="uploader" 
+      action="/trial/"
+      enctype="multipart/form-data" 
+      method="post"
+  >
+      <input type="file" name="uploaded"/>
+      <input type="submit" value="upload"/>
+  </form>
+  
+  </body>
 </html>
