@@ -3,7 +3,7 @@
 </head>
 <body>
 {% if msg %}
-    <p>{{msg}}</p>
+    <a href="/loggedin/">{{msg}}</a> :: your profile<br />
     <a href="/createcourse/">create a new course</a><br /><br />
     <a href="/logout/">logout</a><br /><br />
 {% else %}
@@ -12,7 +12,10 @@
 {% endif %}
 
 <a href="/allcourses/" >allcourses</a><br /><br />
+
+<a href="/addlesson/0" >add a random lesson</a><br /><br />
 homepage
+
 
 </body>
 </html>

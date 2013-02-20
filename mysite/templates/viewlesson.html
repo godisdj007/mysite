@@ -7,7 +7,6 @@
 <script>
 function start()
 {
-alert("as");
 var xmlhttp;
 qry=document.getElementById("qry").value;
 if (window.XMLHttpRequest)
@@ -61,23 +60,23 @@ xmlhttp.send();
 
 <body>
 <input type="hidden" id="qry" value="{{qry}}"  />
+<a href="/home/" >home</a><br  />
 {{msg}}
 {{results.0.0}}<br  />
 {{results.0.1}}<br  />
 {{results.0.2}}<br  />
 <a href="/static/lessons/{{cname}}/{{fname}}">download lesson</a><br  />
-{% ifequal results.0.2 'video' %}
+{% if video %}
     		<video width="320" height="240" controls>
   			<source src="/static/lessons/{{cname}}/{{fname}}" type="video/mp4">
   			Your browser does not support the video tag.
 			</video>
-{% endifequal %}
+{% endif %}
 <br  /><br  />
 <input type="button" onclick="like()" value="like" id="btn"/>
-<p id="plikes">a</p>
+<p id="plikes">{{results.0.3}} likes</p>
 <br  /><br  />
 <button onclick="start()">recommended</button>
-<p id="1results"></p>
-
+<div id="1results"></div>
 </body>
 </html>

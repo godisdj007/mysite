@@ -15,7 +15,15 @@
 {% for row in results %}
     <a href="/course/{{row.0}}">{{row.1}}</a>
     <br  />{{row.2}}&nbsp;&nbsp;{{row.3}}&nbsp;&nbsp;{{row.4}}&nbsp;&nbsp;{{row.5}}&nbsp;&nbsp;{{row.6}}<br  />
-	<a href="/deletecourse/{{row.0}}">delete</a><br  /><br  /><br  />
+	<a href="/removecourse/{{row.0}}">delete</a><br  /><br  /><br  />
+{% endfor %}
+</ul>
+<br  />
+lessons :: 
+<ul>
+{% for row in newresults %}
+    <a href="/viewlesson/?lno={{row.0}}&cname={{row.7}}&fname={{row.6}}">{{row.1}}</a>
+    <br  />{{row.2}}&nbsp;&nbsp;{{row.3}}&nbsp;&nbsp;{{row.4}}&nbsp;&nbsp;{{row.5}}<br  />
 {% endfor %}
 </ul>
 

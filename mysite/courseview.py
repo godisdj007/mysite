@@ -56,7 +56,8 @@ def viewcourse(request,offset):
 
         sql="select owner from courses where cid=%s"
         cursor.execute(sql,[offset])
-        owner = [row[0] for row in cursor.fetchall()]
+        res=cursor.fetchall()
+        owner =res[0][0]
         if owner==str(request.session['umail']):
             admin=True
         else:
@@ -80,7 +81,6 @@ def viewcourse(request,offset):
             cursor.execute(sql)
             newresults=cursor.fetchall()
             db.close()
-            #return HttpResponse(request.session['umail'])
             return render_to_response('viewcourse.html',{'cid':offset,'admin':admin,\
                                                         'results':results,'newresults':newresults})
         return render_to_response('all courses.html',{'msg':msg})
@@ -95,13 +95,19 @@ def  viewlesson(request):
         lno=int(request.GET["lno"])
         db = MySQLdb.connect(user='root', db='mysite', passwd='', host='')
         cursor = db.cursor()
-        sql="select lname,ldesc,filetype from lessons where lno=%s"
+        sql="select lname,ldesc,filetype,likes from lessons where lno=%s"
         cursor.execute(sql,[lno])
         results=cursor.fetchall()
+        ftype=str(results[0][2])
+        if ftype.find('ideo'):
+            vid=True
+        else:
+            vid=False
         db.close()
         lname=results[0][0]
+        #return HttpResponse(vid)
         return render_to_response('viewlesson.html',{'qry':lname,'results':results,'cname':cname,\
-                                                     'fname':fname,'lno':lno})
+                                                     'fname':fname,'lno':lno,'video':vid})
 
 
 def  addlike(request):
@@ -118,11 +124,6 @@ def  addlike(request):
         return HttpResponse("added")
 
 
-def addlesson(request,offset):
-    if "umail" not in request.session or request.session['umail']=="":
-        return HttpResponseRedirect("/login/")
-    else:
-        return render_to_response('addlesson.html',{'cid':offset})
 
 def removelesson(request,offset,newoffset):
     if "umail" not in request.session or request.session['umail']=="":
@@ -158,6 +159,12 @@ def removelesson(request,offset,newoffset):
             msg="done"
         return HttpResponse(msg)
 
+
+def addlesson(request,offset):
+    if "umail" not in request.session or request.session['umail']=="":
+        return HttpResponseRedirect("/login/")
+    else:
+        return render_to_response('addlesson.html',{'cid':offset})
 
 @csrf_exempt
 def uploadlesson(request):
@@ -267,4 +274,5 @@ def notify(cid,cname):
         send_mail('new lesson notification', 'a new lesson has been added to '+cname, '',
             [uid], fail_silently=False)
     return
+
 

@@ -5,7 +5,7 @@ from django.core.validators import email_re
 from django.core.mail import send_mail
 from django.views.decorators.csrf import csrf_exempt
 import datetime
-
+from django.template import Template, Context
 def searchlesson(qry):
         db = MySQLdb.connect(user='root', db='mysite', passwd='', host='')
         cursor = db.cursor()
@@ -137,7 +137,8 @@ def lessonrec(request):
                 elif item.find(newrow[0])!=-1 or newrow[0].find(item)!=-1:
                     if newrow[0].__len__()>3 and item.__len__()>3:
                         count+=1
-        sql="select * from lessons where lno=%s"
+        sql="select lno,lname,ldesc,postdate,filename,submitted_by,c.cname from lessons as l,courses as c\
+                where lno=%s and l.cid=c.cid"
         cursor.execute(sql,lno)
         roo=cursor.fetchall()
         www=[]
@@ -149,4 +150,5 @@ def lessonrec(request):
     qqq.sort()
     qqq.reverse()
     db.close()
-    return HttpResponse(qqq)
+    return render_to_response('lessonrec.html',{'newresults':qqq})
+#    return HttpResponse(qqq)

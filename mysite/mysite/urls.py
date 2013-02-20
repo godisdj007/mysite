@@ -29,7 +29,6 @@ urlpatterns = patterns('',
     ('^submitrating/$', submitrating),
     ('^bycategory/$',bycategory),
     ('^yourcontents/$',yourcontents),
-    (r'^deletecourse/(\d+)/$', deletecourse),
     (r'^viewcourse/(\d+)/$', viewcourse),
     (r'^byuser/(\S+)/$', byuser),
     (r'^forum/(\d+)/$', forum),
@@ -48,6 +47,7 @@ urlpatterns = patterns('',
     ('^asearchlesson/$',bsearchlesson),
     ('^bsearchlesson/$',bsearchlesson),
     ('^lessonrec/$',lessonrec),
+    (r'^removecourse/(\d+)/$', removecourse),
 
 
 )
