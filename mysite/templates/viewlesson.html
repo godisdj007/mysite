@@ -5,6 +5,34 @@
 <title>Untitled Document</title>
 
 <script>
+function start()
+{
+alert("as");
+var xmlhttp;
+qry=document.getElementById("qry").value;
+if (window.XMLHttpRequest)
+  {// code for IE7+, Firefox, Chrome, Opera, Safari
+  xmlhttp=new XMLHttpRequest();
+  }
+else
+  {// code for IE6, IE5
+  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+  }
+xmlhttp.onreadystatechange=function()
+  {
+  if (xmlhttp.readyState==4 && xmlhttp.status==200)
+    {
+    document.getElementById("1results").innerHTML=xmlhttp.responseText;
+	newstart();
+    }
+  }
+xmlhttp.open("GET","/lessonrec/?lname="+qry,true);
+xmlhttp.send();
+alert("asd");
+}
+
+
+
 function like()
 {
 var xmlhttp;
@@ -32,6 +60,7 @@ xmlhttp.send();
 </head>
 
 <body>
+<input type="hidden" id="qry" value="{{qry}}"  />
 {{msg}}
 {{results.0.0}}<br  />
 {{results.0.1}}<br  />
@@ -46,5 +75,9 @@ xmlhttp.send();
 <br  /><br  />
 <input type="button" onclick="like()" value="like" id="btn"/>
 <p id="plikes">a</p>
+<br  /><br  />
+<button onclick="start()">recommended</button>
+<p id="1results"></p>
+
 </body>
 </html>

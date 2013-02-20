@@ -108,12 +108,12 @@ def bsearchlesson(request):
 
 
 def lessonrec(request):
-    qry=str(request.GET["cname"])
+    qry=str(request.GET["lname"])
 
     qqq=[]
     db = MySQLdb.connect(user='root', db='mysite', passwd='', host='')
     cursor = db.cursor()
-    sql="select tag from coursetags as x,courses as c where x.cid=c.cid and cname=%s"
+    sql="select tag from lessontags as x,lessons as l where x.lno=l.lno and lname=%s"
     cursor.execute(sql,[qry])
     results=cursor.fetchall()
     arr=[]
@@ -121,14 +121,14 @@ def lessonrec(request):
         arr.append(row[0])
 
 
-    sql="select distinct x.cid from coursetags as x,courses as c where x.cid=c.cid and cname<>%s"
+    sql="select distinct x.lno from lessontags as x,lessons as l where x.lno=l.lno and lname<>%s"
     cursor.execute(sql,[qry])
     results=cursor.fetchall()
     for row in results:
         count=0;
-        cid=row[0]
-        sql="select tag from coursetags as x where x.cid=%s"
-        cursor.execute(sql,[cid])
+        lno=row[0]
+        sql="select tag from lessontags as x where x.lno=%s"
+        cursor.execute(sql,[lno])
         newresults=cursor.fetchall()
         for newrow in newresults:
             for item in arr:
@@ -137,8 +137,8 @@ def lessonrec(request):
                 elif item.find(newrow[0])!=-1 or newrow[0].find(item)!=-1:
                     if newrow[0].__len__()>3 and item.__len__()>3:
                         count+=1
-        sql="select * from courses where cid=%s"
-        cursor.execute(sql,cid)
+        sql="select * from lessons where lno=%s"
+        cursor.execute(sql,lno)
         roo=cursor.fetchall()
         www=[]
         www.append(count)

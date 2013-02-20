@@ -7,6 +7,7 @@
 <script>
 function newstart2()
 {
+
 qry=document.getElementById("qry").innerHTML;
 var xmlhttp;
 if (window.XMLHttpRequest)
@@ -21,7 +22,7 @@ xmlhttp.onreadystatechange=function()
   {
   if (xmlhttp.readyState==4 && xmlhttp.status==200)
     {
-    document.getElementById("2results").innerHTML=xmlhttp.responseText;
+    document.getElementById("4results").innerHTML=xmlhttp.responseText;
 	
     }
   }
@@ -47,13 +48,13 @@ xmlhttp.onreadystatechange=function()
   {
   if (xmlhttp.readyState==4 && xmlhttp.status==200)
     {
-    document.getElementById("1results").innerHTML=xmlhttp.responseText;
-	newstart();
+    document.getElementById("3results").innerHTML=xmlhttp.responseText;
+	newstart2();
     }
   }
 xmlhttp.open("GET","/asearchlesson/?lname="+qry,true);
 xmlhttp.send();
-
+alert("sad");
 }
 
 

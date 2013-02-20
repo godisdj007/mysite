@@ -57,7 +57,7 @@ def viewcourse(request,offset):
         sql="select owner from courses where cid=%s"
         cursor.execute(sql,[offset])
         owner = [row[0] for row in cursor.fetchall()]
-        if owner==request.session['umail']:
+        if owner==str(request.session['umail']):
             admin=True
         else:
             admin=False
@@ -80,6 +80,7 @@ def viewcourse(request,offset):
             cursor.execute(sql)
             newresults=cursor.fetchall()
             db.close()
+            #return HttpResponse(request.session['umail'])
             return render_to_response('viewcourse.html',{'cid':offset,'admin':admin,\
                                                         'results':results,'newresults':newresults})
         return render_to_response('all courses.html',{'msg':msg})
@@ -97,7 +98,10 @@ def  viewlesson(request):
         sql="select lname,ldesc,filetype from lessons where lno=%s"
         cursor.execute(sql,[lno])
         results=cursor.fetchall()
-        return render_to_response('viewlesson.html',{'results':results,'cname':cname,'fname':fname,'lno':lno})
+        db.close()
+        lname=results[0][0]
+        return render_to_response('viewlesson.html',{'qry':lname,'results':results,'cname':cname,\
+                                                     'fname':fname,'lno':lno})
 
 
 def  addlike(request):
@@ -133,7 +137,11 @@ def removelesson(request,offset,newoffset):
         results=cursor.fetchall()
         cname=results[0][0]
         ownner=results[0][1]
-        if ownner!=str(request.session['umail']):
+        sql="select submitted_by from lessons where lno=%s"
+        cursor.execute(sql,[lno])
+        results=cursor.fetchall()
+        newowner=results[0][0]
+        if ownner!=str(request.session['umail']) and newowner!=str(request.session['umail']):
             msg="u dont have permission"
         else:
             sql="select filename from lessons where cid=%s and lno=%s"
@@ -180,55 +188,83 @@ def uploadlesson(request):
                 for chunk in f.chunks():
                     destination.write(chunk)
 
-            sql="insert into lessons (cid,lname,ldesc,postdate,filetype,filename,submitted_by)\
-                   values(%s,%s,%s,%s,%s,%s,%s) "
-            args=[cid,lname,ldesc,postdate,ftype,fname,sub]
-            cursor.execute(sql,args)
-            db.commit()
+            if checklesson(lname):
+                msg="lname already exists"
+            else:
+                sql="insert into lessons (cid,lname,ldesc,postdate,filetype,filename,submitted_by)\
+                       values(%s,%s,%s,%s,%s,%s,%s) "
+                args=[cid,lname,ldesc,postdate,ftype,fname,sub]
+                cursor.execute(sql,args)
+                db.commit()
 
-            sql="select lno from lessons where lname=%s and submitted_by=%s"
-            cursor.execute(sql,[lname,sub])
-            results=cursor.fetchall()
-            lno=results[0][0]
+                sql="select lno from lessons where lname=%s and submitted_by=%s"
+                cursor.execute(sql,[lname,sub])
+                results=cursor.fetchall()
+                lno=results[0][0]
 
 
-            words=('and','or','to','from','part1','the','a','of','with','without',\
-            'for','in','how','as','not','why','what','who','which','through','&','at','behind','on',\
-            'since','you','we','is','are','learn','-','be',':',',','.','lesson','your')
-            tags=lname.split(' ')
-            tags=set(tags)
-            tags=tags.difference(words)
-            tags=list(tags)
-            for item in tags:
-                sql="insert into lessontags values(%s,%s,'a')"
-                args=[lno,item]
-                try:
-                    cursor.execute(sql,args)
-                    db.commit()
-                except:
-                    msg="error"
+                words=('and','or','to','from','part1','the','a','of','with','without',\
+                'for','in','how','as','not','why','what','who','which','through','&','at','behind','on',\
+                'since','you','we','is','are','learn','-','be',':',',','.','lesson','your')
+                tags=lname.split(' ')
+                tags=set(tags)
+                tags=tags.difference(words)
+                tags=list(tags)
+                for item in tags:
+                    sql="insert into lessontags values(%s,%s,'a')"
+                    args=[lno,item]
+                    try:
+                        cursor.execute(sql,args)
+                        db.commit()
+                    except:
+                        msg="error"
 
-            tags=str(request.POST['tags'])
-            tags=tags.split('+')
-            tags=set(tags)
-            tags=tags.difference(words)
-            tags=list(tags)
-            for item in tags:
-                sql="insert into lessontags values(%s,%s,'b')"
-                args=[lno,item]
-                try:
-                    cursor.execute(sql,args)
-                    db.commit()
-                except:
-                    msg="error"
+                tags=str(request.POST['tags'])
+                tags=tags.split('+')
+                tags=set(tags)
+                tags=tags.difference(words)
+                tags=list(tags)
+                for item in tags:
+                    sql="insert into lessontags values(%s,%s,'b')"
+                    args=[lno,item]
+                    try:
+                        cursor.execute(sql,args)
+                        db.commit()
+                    except:
+                        msg="error"
 
-            db.commit()
-            db.close()
-            msg="done"
+                db.commit()
+                db.close()
+                msg="done"
+                #notify(cid,cname)
         else:
             msg="file too big"
     return HttpResponse(msg)
 
 
+def checklesson(lname):
+    db = MySQLdb.connect(user='root', db='mysite', passwd='', host='')
+    cursor = db.cursor()
+    sql="select lname from lessons where lname=%s"
+    cursor.execute(sql,[lname])
+    results=cursor.fetchall()
+    db.close()
+    if results:
+        return True
+    else:
+        return False
+    return
 
+def notify(cid,cname):
+    db = MySQLdb.connect(user='root', db='mysite', passwd='', host='')
+    cursor = db.cursor()
+    sql="select uid from enrollments where cid=%s"
+    cursor.execute(sql,[cid])
+    results=cursor.fetchall()
+    db.close()
+    for row in results:
+        uid=row[0]
+        send_mail('new lesson notification', 'a new lesson has been added to '+cname, '',
+            [uid], fail_silently=False)
+    return
 

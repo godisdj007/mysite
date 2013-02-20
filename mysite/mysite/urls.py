@@ -47,6 +47,7 @@ urlpatterns = patterns('',
     (r'^removelesson/(\d+)/(\d+)/$', removelesson),
     ('^asearchlesson/$',bsearchlesson),
     ('^bsearchlesson/$',bsearchlesson),
+    ('^lessonrec/$',lessonrec),
 
 
 )
