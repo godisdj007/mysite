@@ -32,30 +32,41 @@ def course(request, offset):
     if "umail" not in request.session:
         return HttpResponseRedirect("/login/")
     else:
-        offset=int(offset)
+        uml=str(request.session['umail'])
+        cid=int(offset)
         db = MySQLdb.connect(user='root', db='mysite', passwd='', host='')
         cursor = db.cursor()
-        sql="select owner from courses where cid='%d'"%(offset)
-        cursor.execute(sql)
+        sql="select owner,`desc`,cname from courses where cid=%s"
+        cursor.execute(sql,[cid])
         result=cursor.fetchall()
         owner=result[0][0]
+        desc=result[0][1]
+        cname=result[0][2]
+
+        sql="select * from enrollments where cid=%s and uid=%s"
+        cursor.execute(sql,[cid,uml])
+        enrld=cursor.fetchall()
+
         db.close()
-        if request.session['umail']!=owner:
-            return HttpResponseRedirect("/viewcourse/%d"%(offset))
+        if uml!=owner:
+            admin=True
         else:
-            return HttpResponseRedirect("/viewcourse/%d"%(offset)) #to be changed to owners view
+            admin=False
+        return render_to_response('coursedetails.html',{'desc':desc,'cid':cid,'admin':admin,'enrolled':enrld,'cname':cname})
+        #return HttpResponseRedirect("/viewcourse/%d"%(offset))
 
 
 def viewcourse(request,offset):
-    offset=int(offset)
+    cid=int(offset)
     if "umail" not in request.session:
         return HttpResponseRedirect("/login/")
     else:
+        uml=str(request.session["umail"])
         db = MySQLdb.connect(user='root', db='mysite', passwd='', host='')
         cursor = db.cursor()
 
         sql="select owner from courses where cid=%s"
-        cursor.execute(sql,[offset])
+        cursor.execute(sql,[cid])
         res=cursor.fetchall()
         owner =res[0][0]
         if owner==str(request.session['umail']):
@@ -63,8 +74,8 @@ def viewcourse(request,offset):
         else:
             admin=False
 
-        sql="select cid from enrollments where cid='%d' and uid='%s'" %(offset,request.session['umail'])
-        cursor.execute(sql)
+        sql="select cid from enrollments where cid=%s and uid=%s"
+        cursor.execute(sql,[cid,uml])
         x = [row[0] for row in cursor.fetchall()]
 
         if not x:
@@ -72,13 +83,13 @@ def viewcourse(request,offset):
         else:
             sql="select l.cid,l.lno,lname,ldesc,l.postdate,filetype,filename,submitted_by,cname \
             from lessons as l,courses as c \
-            where l.cid='%d' and c.cid ='%d' and l.submitted_by=c.owner order by lno"%(offset,offset)
-            cursor.execute(sql)
+            where l.cid=%s and c.cid =%s and l.submitted_by=c.owner order by lno"
+            cursor.execute(sql,[cid,cid])
             results=cursor.fetchall()
             sql="select l.cid,l.lno,lname,ldesc,l.postdate,filetype,filename,submitted_by,cname,likes \
             from lessons as l,courses as c \
-            where l.cid='%d' and c.cid ='%d' and l.submitted_by<>c.owner order by lno"%(offset,offset)
-            cursor.execute(sql)
+            where l.cid=%s and c.cid =%s and l.submitted_by<>c.owner order by lno"
+            cursor.execute(sql,[cid,cid])
             newresults=cursor.fetchall()
             db.close()
             return render_to_response('viewcourse.html',{'cid':offset,'admin':admin,\
@@ -99,7 +110,7 @@ def  viewlesson(request):
         cursor.execute(sql,[lno])
         results=cursor.fetchall()
         ftype=str(results[0][2])
-        if ftype.find('ideo'):
+        if ftype.find('video')!=-1:
             vid=True
         else:
             vid=False
@@ -190,19 +201,19 @@ def uploadlesson(request):
         fname=str(f.name)
         ftype=f.content_type
         fsize=f.size
-        if fsize<50000000:
-            with open(DEFINED_STATIC+'/lessons/'+cname+'/'+fname, 'wb+') as destination:
-                for chunk in f.chunks():
-                    destination.write(chunk)
+        if checklesson(lname):
+            msg="lname already exists"
+        else:
+            if fsize<50000000:
+                with open(DEFINED_STATIC+'/lessons/'+cname+'/'+fname, 'wb+') as destination:
+                    for chunk in f.chunks():
+                        destination.write(chunk)
 
-            if checklesson(lname):
-                msg="lname already exists"
-            else:
                 sql="insert into lessons (cid,lname,ldesc,postdate,filetype,filename,submitted_by)\
                        values(%s,%s,%s,%s,%s,%s,%s) "
                 args=[cid,lname,ldesc,postdate,ftype,fname,sub]
                 cursor.execute(sql,args)
-                db.commit()
+                #db.commit()
 
                 sql="select lno from lessons where lname=%s and submitted_by=%s"
                 cursor.execute(sql,[lname,sub])
@@ -222,7 +233,7 @@ def uploadlesson(request):
                     args=[lno,item]
                     try:
                         cursor.execute(sql,args)
-                        db.commit()
+                        #db.commit()
                     except:
                         msg="error"
 
@@ -236,16 +247,17 @@ def uploadlesson(request):
                     args=[lno,item]
                     try:
                         cursor.execute(sql,args)
-                        db.commit()
+                        #db.commit()
                     except:
                         msg="error"
 
                 db.commit()
                 db.close()
                 msg="done"
+                return HttpResponseRedirect("/viewcourse/"+str(cid))
                 #notify(cid,cname)
-        else:
-            msg="file too big"
+            else:
+                msg="file too big"
     return HttpResponse(msg)
 
 

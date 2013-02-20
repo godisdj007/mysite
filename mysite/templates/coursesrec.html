@@ -1,0 +1,8 @@
+{% for item in newresults %}
+{% for row in item %}
+{% if forloop.last %}
+    <a href="/course/{{row.0}}">{{row.1}}</a><br /><br  />
+    {{row.2}}&nbsp;&nbsp;{{row.3}}&nbsp;&nbsp;&nbsp;&nbsp;{{row.4}}&nbsp;&nbsp;{{row.5}}<br  />
+{% endif %}
+{% endfor %}
+{% endfor %}

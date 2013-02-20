@@ -9,8 +9,8 @@ from django.template import Template, Context
 def searchlesson(qry):
         db = MySQLdb.connect(user='root', db='mysite', passwd='', host='')
         cursor = db.cursor()
-        sql="select *\
-            from lessons where lname = %s"
+        sql="select lno,lname,ldesc,postdate,filename,submitted_by,c.cname from lessons as l,courses as c\
+                where lname=%s and l.cid=c.cid"
         cursor.execute(sql,[qry])
         results=cursor.fetchall()
         return results
@@ -46,19 +46,22 @@ def asearchlesson(request):
                     elif item.find(newrow[0])!=-1 or newrow[0].find(item)!=-1:
                         if newrow[0].__len__()>3 and item.__len__()>3:
                             count+=1
-        sql="select * from lessons where lno=%s"
+        sql="select lno,lname,ldesc,postdate,filename,submitted_by,c.cname from lessons as l,courses as c\
+                where lno=%s and l.cid=c.cid"
         cursor.execute(sql,lno)
         roo=cursor.fetchall()
-        www=[]
-        www.append(count)
-        for term in roo:
-            www.append(term)
-        qqq.append(www)
+        if count>1:
+            www=[]
+            www.append(count)
+            for term in roo:
+                www.append(term)
+            qqq.append(www)
 
     qqq.sort()
     qqq.reverse()
     db.close()
-    return HttpResponse(qqq)
+    return render_to_response('lessonrec.html',{'newresults':qqq})
+    #return HttpResponse(qqq)
 
 
 def bsearchlesson(request):
@@ -91,19 +94,22 @@ def bsearchlesson(request):
                 elif item.find(newrow[0])!=-1 or newrow[0].find(item)!=-1:
                     if newrow[0].__len__()>3 and item.__len__()>3:
                         count+=1
-        sql="select * from lessons where lno=%s"
+        sql="select lno,lname,ldesc,postdate,filename,submitted_by,c.cname from lessons as l,courses as c\
+                where lno=%s and l.cid=c.cid"
         cursor.execute(sql,lno)
         roo=cursor.fetchall()
-        www=[]
-        www.append(count)
-        for term in roo:
-            www.append(term)
-        qqq.append(www)
+        if count>1:
+            www=[]
+            www.append(count)
+            for term in roo:
+                www.append(term)
+            qqq.append(www)
 
     qqq.sort()
     qqq.reverse()
     db.close()
-    return HttpResponse(qqq)
+    return render_to_response('lessonrec.html',{'newresults':qqq})
+    #return HttpResponse(qqq)
 
 
 
@@ -141,11 +147,12 @@ def lessonrec(request):
                 where lno=%s and l.cid=c.cid"
         cursor.execute(sql,lno)
         roo=cursor.fetchall()
-        www=[]
-        www.append(count)
-        for term in roo:
-            www.append(term)
-        qqq.append(www)
+        if count>1:
+            www=[]
+            www.append(count)
+            for term in roo:
+                www.append(term)
+            qqq.append(www)
 
     qqq.sort()
     qqq.reverse()

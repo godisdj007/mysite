@@ -116,14 +116,26 @@ xmlhttp.send();
 you searched for :: 
 <p id="qry" >{{qry}}</p>
 <p>results :: </p>
-{{results}}<br  /><br  />
+<ul>
+{% for row in results %}
+    <a href="/course/{{row.0}}">{{row.1}}</a>
+    <br  />{{row.2}}&nbsp;&nbsp;{{row.3}}&nbsp;&nbsp;{{row.4}}&nbsp;&nbsp;{{row.5}}&nbsp;&nbsp;{{row.6}}<br  />
+<br  />
+{% endfor %}
+</ul>
 <button value=" more " onclick="start()" >more</button>
 <p id="1results"></p>
 <br  />
 <p id="2results"></p>
 <br  />
 lessons::<br  />
-{{newresults}}
+<ul>
+{% for row in newresults %}
+    <b><a href="/viewlesson/?cname={{row.6}}&fname={{row.4}}&lno={{row.0}}">{{row.1}}</a>
+    </b><br  />&nbsp;&nbsp;{{row.3}}<br  />
+    submitted by ::<a href="/byuser/{{row.5}} ">{{row.5}}<br  /></a>
+{% endfor %}
+</ul>
 <p id="3results"></p>
 <br  />
 <p id="4results"></p>

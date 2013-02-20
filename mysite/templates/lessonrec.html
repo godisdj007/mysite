@@ -3,7 +3,6 @@
 {% if forloop.last %}
     <a href="/viewlesson/?lno={{row.0}}&cname={{row.6}}&fname={{row.4}}">{{row.1}}</a><br /><br  />
     {{row.2}}&nbsp;&nbsp;{{row.3}}&nbsp;&nbsp;&nbsp;&nbsp;{{row.5}}&nbsp;&nbsp;{{row.6}}<br  />
-	<a href="/deletecourse/{{row.0}}">delete</a><br  /><br  /><br  />
 {% endif %}
 {% endfor %}
 {% endfor %}

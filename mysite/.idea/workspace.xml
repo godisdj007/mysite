@@ -32,7 +32,7 @@
       <file leaf-file-name="views.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="129" column="83" selection-start="4890" selection-end="4890" vertical-scroll-proportion="0.43956044">
+            <state line="214" column="12" selection-start="8121" selection-end="8121" vertical-scroll-proportion="0.4084249">
               <folding>
                 <element signature="e#0#47#0" expanded="true" />
               </folding>
@@ -40,10 +40,19 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="lsearchview.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/lsearchview.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="11" column="105" selection-start="466" selection-end="551" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="courseview.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/courseview.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="153" column="0" selection-start="5748" selection-end="5815" vertical-scroll-proportion="0.0">
+            <state line="256" column="68" selection-start="9621" selection-end="9621" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="e#0#47#0" expanded="true" />
               </folding>
@@ -54,16 +63,7 @@
       <file leaf-file-name="searchview.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/searchview.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="19" column="105" selection-start="792" selection-end="863" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="lsearchview.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/lsearchview.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="144" column="25" selection-start="4792" selection-end="4792" vertical-scroll-proportion="0.0">
+            <state line="162" column="0" selection-start="5492" selection-end="5492" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -93,10 +93,10 @@
         <option value="$PROJECT_DIR$/course view.py" />
         <option value="$PROJECT_DIR$/forumsview.py" />
         <option value="$PROJECT_DIR$/mysite/settings.py" />
+        <option value="$PROJECT_DIR$/mysite/urls.py" />
+        <option value="$PROJECT_DIR$/courseview.py" />
         <option value="$PROJECT_DIR$/searchview.py" />
         <option value="$PROJECT_DIR$/lsearchview.py" />
-        <option value="$PROJECT_DIR$/courseview.py" />
-        <option value="$PROJECT_DIR$/mysite/urls.py" />
         <option value="$PROJECT_DIR$/views.py" />
       </list>
     </option>
@@ -491,20 +491,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/searchview.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="105" selection-start="792" selection-end="863" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lsearchview.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="144" column="25" selection-start="4792" selection-end="4792" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/mysite/urls.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="31" column="4" selection-start="892" selection-end="892" vertical-scroll-proportion="0.0">
@@ -514,16 +500,30 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/courseview.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="153" column="0" selection-start="5748" selection-end="5815" vertical-scroll-proportion="0.0">
+        <state line="256" column="68" selection-start="9621" selection-end="9621" vertical-scroll-proportion="0.0">
           <folding>
             <element signature="e#0#47#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/searchview.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="162" column="0" selection-start="5492" selection-end="5492" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lsearchview.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="11" column="105" selection-start="466" selection-end="551" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="129" column="83" selection-start="4890" selection-end="4890" vertical-scroll-proportion="0.43956044">
+        <state line="214" column="12" selection-start="8121" selection-end="8121" vertical-scroll-proportion="0.4084249">
           <folding>
             <element signature="e#0#47#0" expanded="true" />
           </folding>

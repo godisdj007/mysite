@@ -53,16 +53,18 @@ def asearchcourse(request):
         sql="select * from courses where cid=%s"
         cursor.execute(sql,cid)
         roo=cursor.fetchall()
-        www=[]
-        www.append(count)
-        for term in roo:
-            www.append(term)
-        qqq.append(www)
+        if count>1:
+            www=[]
+            www.append(count)
+            for term in roo:
+                www.append(term)
+            qqq.append(www)
 
     qqq.sort()
     qqq.reverse()
     db.close()
-    return HttpResponse(qqq)
+    return render_to_response('coursesrec.html',{'newresults':qqq})
+    #return HttpResponse(qqq)
 
 
 def bsearchcourse(request):
@@ -98,16 +100,18 @@ def bsearchcourse(request):
         sql="select * from courses where cid=%s"
         cursor.execute(sql,cid)
         roo=cursor.fetchall()
-        www=[]
-        www.append(count)
-        for term in roo:
-            www.append(term)
-        qqq.append(www)
+        if count>1:
+            www=[]
+            www.append(count)
+            for term in roo:
+                www.append(term)
+            qqq.append(www)
 
     qqq.sort()
     qqq.reverse()
     db.close()
-    return HttpResponse(qqq)
+    return render_to_response('coursesrec.html',{'newresults':qqq})
+    #return HttpResponse(qqq)
 
 
 
@@ -141,16 +145,18 @@ def coursesrec(request):
                 elif item.find(newrow[0])!=-1 or newrow[0].find(item)!=-1:
                     if newrow[0].__len__()>3 and item.__len__()>3:
                         count+=1
-        sql="select * from courses where cid=%s"
+        sql="select cid,cname,owner,start_date,no_of_followers,category,rating from courses where cid=%s"
         cursor.execute(sql,cid)
         roo=cursor.fetchall()
-        www=[]
-        www.append(count)
-        for term in roo:
-            www.append(term)
-        qqq.append(www)
+        if count>1:
+            www=[]
+            www.append(count)
+            for term in roo:
+                www.append(term)
+            qqq.append(www)
 
     qqq.sort()
     qqq.reverse()
     db.close()
-    return HttpResponse(qqq)
+    return render_to_response('coursesrec.html',{'newresults':qqq})
+    #return HttpResponse(qqq)

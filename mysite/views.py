@@ -196,7 +196,6 @@ def unenroll(request, offset):
             sql="delete from enrollments where cid=%s and uid=%s"
 
             cursor.execute(sql,[offset,uml])
-            db.commit()
             sql="update courses set no_of_followers=no_of_followers-1 where cid=%s "
             cursor.execute(sql,[offset])
             msg='unenrolled'
@@ -209,11 +208,12 @@ def byuser(request, offset):
     offset=str(offset)
     db = MySQLdb.connect(user='root', db='mysite', passwd='', host='')
     cursor = db.cursor()
-    sql="select * from courses where owner='%s'"%offset
-    cursor.execute(sql)
+    sql="select cid,cname,owner,start_date,no_of_followers,category,rating from courses where owner=%s"
+    cursor.execute(sql,[offset])
     results=cursor.fetchall()
-    sql="select l.* from courses as c,lessons as l where l.cid=c.cid and submitted_by='%s' and submitted_by<>c.owner"%offset
-    cursor.execute(sql)
+    sql="select lno,lname,ldesc,postdate,filename,submitted_by,c.cname from lessons as l,courses as c\
+            where l.cid=c.cid and submitted_by=%s and submitted_by<>c.owner"
+    cursor.execute(sql,[offset])
     newresults=cursor.fetchall()
     db.close()
     return render_to_response('byuser.html',{'results':results,'newresults':newresults})
@@ -291,7 +291,6 @@ def addcourse(request):
                         args=[cid,item]
                         try:
                             cursor.execute(sql,args)
-                            db.commit()
                         except:
                             j+=1
 
@@ -302,7 +301,6 @@ def addcourse(request):
                     args=[cid,item]
                     try:
                         cursor.execute(sql,args)
-                        db.commit()
                     except:
                         j+=1
 
