@@ -6,7 +6,6 @@ from django.conf.urls import patterns, include, url
 
 from views import *
 from courseview import *
-from forumsview import *
 from searchview import *
 from lsearchview import *
 
@@ -31,10 +30,6 @@ urlpatterns = patterns('',
     ('^yourcontents/$',yourcontents),
     (r'^viewcourse/(\d+)/$', viewcourse),
     (r'^byuser/(\S+)/$', byuser),
-    (r'^forum/(\d+)/$', forum),
-    ('^addforum/$',addforum),
-    ('^viewforum/$',viewforum),
-    ('^addpost/$',addpost),
     (r'^viewlesson/$', viewlesson),
     ('^addlike/$',addlike),
     ('^asearchcourse/$',asearchcourse),
