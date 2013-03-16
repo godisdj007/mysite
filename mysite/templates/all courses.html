@@ -4,10 +4,18 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Untitled Document</title>
 
+    <script type="text/javascript">
+        function rank()
+        {
+            alert("Your Rank is {{ pos }}th out of {{ usernum }} persons...");
+        }
+    </script>
 </head>
 
 <body>
 <a href="/home/" >home</a><br /><br />
+
+
 
 {% if msg %}
     <p><a href="/loggedin/">{{msg}}</a></p>
@@ -15,6 +23,7 @@
 {% else %}
 	<a href="/login/">login</a>    
 {% endif %}
+{{ msg2 }}
 <br  /><br  /><br  />
 <form action="/bycategory/" method="get" >
 <input type="text" name="category"  />enter category<br />

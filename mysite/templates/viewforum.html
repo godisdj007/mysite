@@ -1,0 +1,47 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+
+</head>
+
+<body>
+<a href="/home/" >home</a><br /><br />
+{{post1}}
+
+
+<ul>
+    {% for row in results2 %}
+       <strong> {{row.2}}</strong><br  />
+        <ul><strong> {{row.3}} <br/>
+          {{row.5}}</strong>
+        </ul>
+    {% endfor %}
+    <p>---------------------------------------------------------------------------------------------</p>
+  <ul>
+     {% for row in results %}
+       <strong> {{row.3}}</strong><br  />
+       <ul>=>{{row.6}}<br  />
+           <strong> {{row.4}}
+           <!--        &nbsp;&nbsp;<a href="" onclick="like(this,{ row.0 }})" id="like">like</a>&nbsp; {row.5}}</strong> -->
+           &nbsp;&nbsp;<a href="/userlikes/?pno={{ row.0 }}&cid={{ cid }}&fno={{ fno }}" id="like">like</a>&nbsp; {{row.5}}</strong>
+       </ul>
+     {% endfor %}
+      <strong>{{ user }}</strong>
+          <ul>
+           <form action="/addpost/" method="get">
+           <input type="hidden" name="cid" id="cid" value="{{cid}}"  />
+           <input type="hidden" name="fno" id="fno" value="{{fno}}"  />
+           <textarea rows="3" cols="60" name="content"></textarea><br/>
+           <input type="submit"  />
+           </form>
+          </ul>
+  </ul>
+</ul>
+
+<p id="extra"></p>
+
+
+</body>
+</html>

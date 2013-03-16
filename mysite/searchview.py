@@ -10,7 +10,7 @@ from lsearchview import *
 def searchcourse(request):
     if "cname" in request.GET and request.GET["cname"]!="":
         qry=str(request.GET["cname"])
-        db = MySQLdb.connect(user='root', db='mysite', passwd='', host='')
+        db = MySQLdb.connect(user='root', db='devesh mysite', passwd='', host='')
         cursor = db.cursor()
         sql="select cid,cname,owner,start_date,no_of_followers,category,rating \
             from courses where cname = %s"
@@ -32,7 +32,7 @@ def asearchcourse(request):
     arr=arr.difference(words)
     arr=list(arr)
 
-    db = MySQLdb.connect(user='root', db='mysite', passwd='', host='')
+    db = MySQLdb.connect(user='root', db='devesh mysite', passwd='', host='')
     cursor = db.cursor()
     sql="select distinct cid from coursetags"
     cursor.execute(sql)
@@ -79,7 +79,7 @@ def bsearchcourse(request):
     arr=arr.difference(words)
     arr=list(arr)
 
-    db = MySQLdb.connect(user='root', db='mysite', passwd='', host='')
+    db = MySQLdb.connect(user='root', db='devesh mysite', passwd='', host='')
     cursor = db.cursor()
     sql="select distinct cid from coursetags"
     cursor.execute(sql)
@@ -119,7 +119,7 @@ def coursesrec(request):
     qry=str(request.GET["cname"])
 
     qqq=[]
-    db = MySQLdb.connect(user='root', db='mysite', passwd='', host='')
+    db = MySQLdb.connect(user='root', db='devesh mysite', passwd='', host='')
     cursor = db.cursor()
     sql="select tag from coursetags as x,courses as c where x.cid=c.cid and cname=%s"
     cursor.execute(sql,[qry])

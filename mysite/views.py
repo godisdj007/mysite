@@ -10,7 +10,7 @@ import os
 
 @csrf_exempt
 def trial(request):
-    #os.remove("c:/djangotest/mysite/static/lessons/da/new.py")
+    #os.remove("c:/djangotest/devesh mysite/static/lessons/da/new.py")
     return HttpResponse("done")
 
 def tryhtml(request):
@@ -31,7 +31,7 @@ def login(request):
 
 def loggedin(request):
     if "umail" in request.session and request.session['umail']!="":
-        db = MySQLdb.connect("localhost","root","","mysite" )
+        db = MySQLdb.connect("localhost","root","","devesh mysite" )
         cursor = db.cursor()
         sql = "SELECT c.cid,c.cname,c.owner,c.start_date,c.no_of_followers,c.category,c.rating,c.desc\
                 FROM courses as c,enrollments as e where e.uid=%s and e.cid=c.cid"
@@ -49,7 +49,7 @@ def loggedin(request):
 
 def yourcontents(request):
     if "umail" in request.session and request.session['umail']!="":
-        db = MySQLdb.connect("localhost","root","","mysite" )
+        db = MySQLdb.connect("localhost","root","","devesh mysite" )
         cursor = db.cursor()
         sql = "SELECT cid,cname,owner,start_date,no_of_followers,category,rating,`desc` FROM courses where owner=%s"
         umail=str(request.session['umail'])
@@ -72,7 +72,7 @@ def adduser(request):
     if  request.GET['email']!="" and request.GET['uname']!="" and request.GET['pass']!="":
         x= bool(email_re.match(request.GET['email']))
         if x:
-            db = MySQLdb.connect(user='root', db='mysite', passwd='', host='')
+            db = MySQLdb.connect(user='root', db='devesh mysite', passwd='', host='')
             cursor = db.cursor()
             sql="select email from users where email=%s"
             ml=request.GET['email']
@@ -97,7 +97,7 @@ def adduser(request):
 
 
 def signuserin(request):
-    db = MySQLdb.connect(user='root', db='mysite', passwd='', host='')
+    db = MySQLdb.connect(user='root', db='devesh mysite', passwd='', host='')
     cursor = db.cursor()
     sql="select email,password from users where email=%s"
     ml=str(request.GET['email'])
@@ -125,7 +125,7 @@ def logout(request):
 
 def bycategory(request):
     category=request.GET["category"]
-    db = MySQLdb.connect("localhost","root","","mysite" )
+    db = MySQLdb.connect("localhost","root","","devesh mysite" )
     cursor = db.cursor()
     sql = "SELECT cid,cname,owner,start_date,no_of_followers,category,rating,`desc` FROM courses where category=%s"
     try:
@@ -141,7 +141,7 @@ def allcourses(request):
         umail=request.session["umail"]
     else:
         umail=False
-    db = MySQLdb.connect("localhost","root","","mysite" )
+    db = MySQLdb.connect("localhost","root","","devesh mysite" )
     cursor = db.cursor()
     sql = "SELECT cid,cname,owner,start_date,no_of_followers,category,rating,`desc` FROM courses where cname<>%s"
     try:
@@ -157,7 +157,7 @@ def enroll(request, offset):
     if "umail" not in request.session or request.session['umail']=="":
         return HttpResponseRedirect("/login/")
     else:
-        db = MySQLdb.connect(user='root', db='mysite', passwd='', host='')
+        db = MySQLdb.connect(user='root', db='devesh mysite', passwd='', host='')
         cursor = db.cursor()
         sql="select uid from enrollments where cid=%s and uid=%s"
         offset=int(offset)
@@ -182,7 +182,7 @@ def unenroll(request, offset):
     if "umail" not in request.session or request.session['umail']=="":
         return HttpResponseRedirect("/login/")
     else:
-        db = MySQLdb.connect(user='root', db='mysite', passwd='', host='')
+        db = MySQLdb.connect(user='root', db='devesh mysite', passwd='', host='')
         cursor = db.cursor()
         sql="select uid from enrollments where cid=%s and uid=%s"
         offset=int(offset)
@@ -204,9 +204,10 @@ def unenroll(request, offset):
     return render_to_response('all courses.html',{'msg':msg})
 
 
-def byuser(request, offset):
+def byuser(request, offset,cid):
     offset=str(offset)
-    db = MySQLdb.connect(user='root', db='mysite', passwd='', host='')
+    cid=int(cid)
+    db = MySQLdb.connect(user='root', db='devesh mysite', passwd='', host='')
     cursor = db.cursor()
     sql="select cid,cname,owner,start_date,no_of_followers,category,rating from courses where owner=%s"
     cursor.execute(sql,[offset])
@@ -215,15 +216,33 @@ def byuser(request, offset):
             where l.cid=c.cid and submitted_by=%s and submitted_by<>c.owner"
     cursor.execute(sql,[offset])
     newresults=cursor.fetchall()
+
+
+    user=request.session['umail']
+
+    sql="select user,sub_user from subscribe where user=%s and sub_user=%s "
+    args=[user,offset]
+    cursor.execute(sql,args)
+    y=[row[0] for row in cursor.fetchall()]
+    if offset==user:
+        subscribe=101
+    else:
+      if not y:
+        subscribe=1
+      else:
+        subscribe=0
+
+
     db.close()
-    return render_to_response('byuser.html',{'results':results,'newresults':newresults})
+    return render_to_response('byuser.html',{'results':results,'newresults':newresults,'subscribe':subscribe,\
+                                             'sub_user':offset,'cid':cid})
 
 def removecourse(request,offset):
     if "umail" not in request.session or request.session['umail']=="":
         return HttpResponseRedirect("/login/")
     else:
         cid=int(offset)
-        db = MySQLdb.connect(user='root', db='mysite', passwd='', host='')
+        db = MySQLdb.connect(user='root', db='devesh mysite', passwd='', host='')
         cursor = db.cursor()
         sql="select cname,owner from courses where cid=%s"
         cursor.execute(sql,[cid])
@@ -233,7 +252,7 @@ def removecourse(request,offset):
         if ownner!=str(request.session['umail']):
             msg="u dont have permission"
         else:
-            os.rmdir("c:/djangotest/mysite/static/lessons/"+cname)
+            os.rmdir("c:/djangotest/devesh mysite/static/lessons/"+cname)
 
             sql="delete from courses where cid=%s"
             cursor.execute(sql,[cid])
@@ -253,7 +272,7 @@ def addcourse(request):
         return HttpResponseRedirect("/login/")
     else:
         if  request.GET['cname']!="" and request.GET['category']!="" :
-            db = MySQLdb.connect(user='root', db='mysite', passwd='', host='')
+            db = MySQLdb.connect(user='root', db='devesh mysite', passwd='', host='')
             cursor = db.cursor()
             sql="select cname from courses where cname=%s"
             cnm=str(request.GET['cname'])
@@ -311,7 +330,7 @@ def addcourse(request):
                 except:
                     j+=1
 
-                os.mkdir("c:/djangotest/mysite/static/lessons/"+cname)
+                os.mkdir("c:/djangotest/devesh mysite/static/lessons/"+cname)
                 db.commit()
                 db.close()
             return HttpResponseRedirect("/allcourses/")

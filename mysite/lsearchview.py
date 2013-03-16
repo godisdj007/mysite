@@ -7,7 +7,7 @@ from django.views.decorators.csrf import csrf_exempt
 import datetime
 from django.template import Template, Context
 def searchlesson(qry):
-        db = MySQLdb.connect(user='root', db='mysite', passwd='', host='')
+        db = MySQLdb.connect(user='root', db='devesh mysite', passwd='', host='')
         cursor = db.cursor()
         sql="select lno,lname,ldesc,postdate,filename,submitted_by,c.cname from lessons as l,courses as c\
                 where lname=%s and l.cid=c.cid"
@@ -28,7 +28,7 @@ def asearchlesson(request):
     arr=arr.difference(words)
     arr=list(arr)
 
-    db = MySQLdb.connect(user='root', db='mysite', passwd='', host='')
+    db = MySQLdb.connect(user='root', db='devesh mysite', passwd='', host='')
     cursor = db.cursor()
     sql="select distinct lno from lessontags"
     cursor.execute(sql)
@@ -76,7 +76,7 @@ def bsearchlesson(request):
     arr=arr.difference(words)
     arr=list(arr)
 
-    db = MySQLdb.connect(user='root', db='mysite', passwd='', host='')
+    db = MySQLdb.connect(user='root', db='devesh mysite', passwd='', host='')
     cursor = db.cursor()
     sql="select distinct lno from lessontags"
     cursor.execute(sql)
@@ -117,7 +117,7 @@ def lessonrec(request):
     qry=str(request.GET["lname"])
 
     qqq=[]
-    db = MySQLdb.connect(user='root', db='mysite', passwd='', host='')
+    db = MySQLdb.connect(user='root', db='devesh mysite', passwd='', host='')
     cursor = db.cursor()
     sql="select tag from lessontags as x,lessons as l where x.lno=l.lno and lname=%s"
     cursor.execute(sql,[qry])

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+<a href="/home/" >home</a><br /><br />
+{% if msg %}
+    <strong>{{ msg }}</strong><br/><br/>
+    <a href="/createassignment/?cid={{cid}}">GO BACK FOR NEW ASSIGNMENT</a>
+
+{% else %}
+   <form action="/addassignment/" method="get">
+       <input type="hidden" name="cid" value="{{cid}}"  />
+       Assignment Name:<input type="text" name="assname" id="assname"/><br/><br/>
+       Assignment Type:
+             <ul><input type="radio" name="type"  value="mcq"/>MCQ<br/>
+                <input type="radio" name="type"  value="descriptive"/>DESCRIPTIVE
+             </ul>
+       <input type="submit" value="submit"/>
+   </form>
+   {{cid}}
+{% endif %}
+
+</body>
+</html>

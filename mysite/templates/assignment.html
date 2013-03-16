@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Untitled Document</title>
+
+    <script type="text/javascript">
+        function rank()
+        {
+            alert("Your Rank is {{ pos }}th out of {{ usernum }} persons...");
+        }
+    </script>
+
+</head>
+
+<body>
+<a href="/home/" >home</a><br /><br />
+<p><strong>{{ msg }}</strong></p>
+<p>Assignment for this course::</p>
+
+{% if msg1 %}
+    <strong>{{ msg1 }}</strong><br/><br/>
+    <strong>You did Assignment No.[{{ asid}}] Of course no.[{{ cid }}]</strong><br/><br/>
+    <input type="button" name="rank" value="Your Rank" onclick="rank()"  /><br />
+    <a href="/assignment/{{ cid }}">GO BACK TO OTHER ASSIGNMENT</a><br/>
+    <br/>
+
+{% else %}
+
+
+<ul>
+    {% if flag %}
+        <form action="/createassignment/" method="get">
+            <input type="hidden" name="cid" value="{{result1.0.1}}"  />
+            <input type="submit" value="Create Assignment"  />
+        </form>
+    {% endif %}
+</ul>
+<table>
+   <tr>
+      <th>  <p><strong>MCQ</strong></p></th>
+      <th> <p><strong>DESCRIPTIVE</strong></p></th>
+   </tr>
+
+   <tr>
+     <td>
+        <table border="1">
+           {% for row in result1 %}
+                <tr>
+                   <td> <strong>Ass_No :: [{{row.0}}]</strong></td>
+                   <td><strong>Ass_Name::<a href="/viewassignment/?asid={{ row.0 }}&cid={{row.1}}&type={{row.5}}&qt=0 " >
+                           {{ row.2 }} </a></strong>
+                   </td>
+                </tr>
+                <tr>
+                  <td>created by :: {{row.3}}</td>
+                  <td>Post on:: {{row.4}}</td>
+                </tr>
+           {% endfor %}
+        </table>
+     </td>
+
+
+     <td>
+         <table border="1">
+            {% for row in result2 %}
+                <tr>
+                    <td><strong>Ass_No :: [{{row.0}}]<strong></td>
+                    <td><strong>Ass_Name::<a href="/viewassignment/?asid={{ row.0 }}&cid={{row.1}}&type={{row.5}}&qt=0">
+                            {{ row.2 }}</a><strong>
+                    </td>
+                </tr>
+                <tr>
+                    <td>created by :: {{row.3}}</td>
+                    <td>Post on:: {{row.4}}</td>
+                </tr>
+            {% endfor %}
+         </table>
+     </td>
+   </tr>
+</table>
+{% endif %}
+</body>
+</html>

@@ -80,13 +80,20 @@ xmlhttp.send();
 <input type="button" onclick="rating()" value=" rate " />
 <br  />
 <a href="/forum/{{cid}}" >forums</a>
+
+<a href="/assignment/{{ cid }}">assignment</a>
+<a href="/feed/{{ cid }}">feedbacks</a>
+{% if flag %}
+    <a href="/viewfeedback/{{ cid }}">View feedback</a>
+{% endif %}
+
 <p>lessons::</p>
 <ul>
 {% for row in results %}
     <p>lesson :: {{row.1}}</p>
     <b><a href="/viewlesson/?cname={{row.8}}&fname={{row.6}}&lno={{row.1}}">{{row.2}}</a>
     </b><br  />&nbsp;&nbsp;{{row.3}}<br  />&nbsp;&nbsp;{{row.4}}<br  />&nbsp;&nbsp;{{row.5}}<br  />
-    submitted by ::<a href="/byuser/{{row.7}} ">{{row.7}}<br  /></a>
+    submitted by ::<a href="/byuser/{{row.7}}/{{ cid }} ">{{row.7}}<br  /></a>
 {% endfor %}
 </ul>
 <br  /><br  />

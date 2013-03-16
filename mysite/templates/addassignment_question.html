@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+
+    <p><strong>ASSIGNMENT :[{{ asid }}]:{{ assname }}</strong></p>
+    <form action="/addassignment_question/" method="get">
+        <input type="hidden" name="cid" value="{{cid}}"  />
+        <input type="hidden" name="asid" value="{{asid}}"  />
+        <input type="hidden" name="type" value="{{type}}"  />
+        <input type="hidden" name="assname" value="{{assname}}"  />
+        <textarea name="question" rows="3" cols="60" id="question"></textarea><br/>
+        {% ifequal type 'mcq' %}
+            <strong>A ::</strong><input type="text" name="a">
+            <strong>B ::</strong><input type="text" name="b"><br/>
+            <strong>C ::</strong><input type="text" name="c">
+            <strong>D ::</strong><input type="text" name="d"><br/><br/>
+            <input type="hidden" name="e"><br/><br/>
+            <strong>ANSWER</strong>
+            <select name="answer">
+                <option value="a">A</option>
+                <option value="b">B</option>
+                <option value="c">C</option>
+                <option value="d">D</option>
+            </select>
+        {% endifequal %}
+        <br/><input type="submit" value="Submit & Next"  />
+        <a href="/assignment/{{ cid }}">FINISH ASSIGNMENT</a>
+    </form>
+
+
+
+</body>
+</html>

@@ -8,6 +8,11 @@ from views import *
 from courseview import *
 from searchview import *
 from lsearchview import *
+from forumsview import *
+from assignmentview import *
+from feedbackview import *
+from subscribeview import *
+
 
 urlpatterns = patterns('',
     ('^home/$', home),
@@ -29,7 +34,7 @@ urlpatterns = patterns('',
     ('^bycategory/$',bycategory),
     ('^yourcontents/$',yourcontents),
     (r'^viewcourse/(\d+)/$', viewcourse),
-    (r'^byuser/(\S+)/$', byuser),
+    (r'^byuser/(\S+)/(\d+)/$', byuser),
     (r'^viewlesson/$', viewlesson),
     ('^addlike/$',addlike),
     ('^asearchcourse/$',asearchcourse),
@@ -43,6 +48,26 @@ urlpatterns = patterns('',
     ('^bsearchlesson/$',bsearchlesson),
     ('^lessonrec/$',lessonrec),
     (r'^removecourse/(\d+)/$', removecourse),
+
+
+
+
+    (r'^forum/(\d+)/$', forum),
+    ('^addforum/$',addforum),
+    ('^viewforum/(\d+)/(\d+)/$',viewforum),
+    ('^addpost/$',addpost),
+    ('^userlikes/$',userlikes),
+    (r'^assignment/(\d+)/$',assignment),
+    (r'^viewassignment/$',viewassignment),
+    ('^finishassignment/$',finishassignment),
+    ('^createassignment/$',createassignment),
+    ('^addassignment/$',addassignment),
+    ('^addassignment_question/$',addassignment_question),
+    ('^feed/(\d+)/$',feed),
+    ('^feedbacks/$',feedbacks),
+    ('^viewfeedback/(\d+)/$', viewfeedback),
+    ('^subscribe/(\S+)/(\d+)/(\d+)/$',subscribe),
+    ('^recentactivity/$',recentactivity),
 
 
 )

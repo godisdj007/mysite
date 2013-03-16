@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html">
+<head>
+    <title></title>
+</head>
+<body>
+<p><strong>COURSE WISE</strong></p>
+  <table border="1">
+    <tr>
+        <th>USER</th>
+        <th>Add Course/Lessons</th>
+        <th>Date</th>
+    </tr>
+  {% for row in n1 %}
+      <tr>
+         <td>{{ row.2 }}</td>
+         <td><a href="/viewcourse/{{ row.0 }}"> <strong>{{ row.1 }}</strong></a></td>
+          <td> {{ row.3 }}</td>
+      </tr>
+  {% endfor %}
+
+<tr><td colspan="3"><strong>LESSON WISE</strong></td></tr>
+  {% for row in n2 %}
+      <tr>
+          <td>{{ row.7 }}</td>
+          <td><a href="/viewcourse/{{ row.0 }}"> <strong>{{ row.2 }}</strong></a></td>
+          <td> {{ row.4 }}</td>
+      </tr>
+  {% endfor %}
+  </table>
+</body>
+</html>

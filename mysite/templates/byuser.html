@@ -6,6 +6,15 @@
 </head>
 
 <body>
+{% ifequal subscribe 101 %}
+
+{% else %}
+  {% if subscribe %}
+    <a href="/subscribe/{{ sub_user }}/{{ cid }}/{{ subscribe }}">Subscribe User</a>
+  {% else %}
+    <a href="/subscribe/{{sub_user }}/{{ cid }}/{{ subscribe }}">Unsubscribe User</a>
+  {% endif %}<br  />
+{% endifequal %}
 {{msg}}
 courses by user::
 <br  />
@@ -17,9 +26,11 @@ courses by user::
 {% endfor %}
 </ul>
 <br  />
+
 lessons contributed by user::
 <br  />
 <ul>
+
 {% for row in newresults %}
     <b><a href="/viewlesson/?cname={{row.6}}&fname={{row.4}}&lno={{row.0}}">{{row.1}}</a>
     </b><br  />&nbsp;&nbsp;{{row.3}}<br  />

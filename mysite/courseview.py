@@ -7,25 +7,34 @@ from django.views.decorators.csrf import csrf_exempt
 import datetime
 import os
 
-DEFINED_STATIC=os.path.join(os.path.dirname(__file__).replace('mysite',''), 'mysite/static/').replace('\\','/')
+DEFINED_STATIC=os.path.join(os.path.dirname(__file__).replace('devesh mysite',''), 'devesh mysite/static/').replace('\\','/')
 
 def submitrating(request):
+    umail=request.session['umail']
     score=float( request.GET["score"] )
-    cid=int( request.GET["cid"] )
-    db = MySQLdb.connect(user='root', db='mysite', passwd='', host='')
-    cursor = db.cursor()
-    sql="select rating,raters from courses where cid='%d'"%(cid)
-    cursor.execute(sql)
-    result=cursor.fetchall()
-    row=result[0]
-    rating = row[0]
-    raters = row[1]
-    raters=raters+1
-    rating=(rating*(raters-1)+score)/raters
-    sql="update courses set rating='%f',raters='%d' where cid='%d'"%(rating,raters,cid)
-    cursor.execute(sql)
-    db.commit()
-    db.close()
+    if score>0 and score<5.1:
+        cid=int( request.GET["cid"] )
+        db = MySQLdb.connect(user='root', db='devesh mysite', passwd='', host='')
+        cursor = db.cursor()
+        sql="select * from courserate where cid=%s and ratedby=%s"
+        cursor.execute(sql,[cid,umail])
+        result=cursor.fetchall()
+        if not result:
+            sql="select rating,raters from courses where cid='%d'"%(cid)
+            cursor.execute(sql)
+            result=cursor.fetchall()
+            row=result[0]
+            rating = row[0]
+            raters = row[1]
+            raters=raters+1
+            rating=(rating*(raters-1)+score)/raters
+            sql="update courses set rating='%f',raters='%d' where cid='%d'"%(rating,raters,cid)
+            cursor.execute(sql)
+
+            sql="insert into courserate values(%s,%s)"
+            cursor.execute(sql,[cid,umail])
+            db.commit()
+        db.close()
     return HttpResponse(rating)
 
 def course(request, offset):
@@ -34,7 +43,7 @@ def course(request, offset):
     else:
         uml=str(request.session['umail'])
         cid=int(offset)
-        db = MySQLdb.connect(user='root', db='mysite', passwd='', host='')
+        db = MySQLdb.connect(user='root', db='devesh mysite', passwd='', host='')
         cursor = db.cursor()
         sql="select owner,`desc`,cname from courses where cid=%s"
         cursor.execute(sql,[cid])
@@ -62,7 +71,7 @@ def viewcourse(request,offset):
         return HttpResponseRedirect("/login/")
     else:
         uml=str(request.session["umail"])
-        db = MySQLdb.connect(user='root', db='mysite', passwd='', host='')
+        db = MySQLdb.connect(user='root', db='devesh mysite', passwd='', host='')
         cursor = db.cursor()
 
         sql="select owner from courses where cid=%s"
@@ -104,7 +113,7 @@ def  viewlesson(request):
         cname=str(request.GET["cname"])
         fname=str(request.GET["fname"])
         lno=int(request.GET["lno"])
-        db = MySQLdb.connect(user='root', db='mysite', passwd='', host='')
+        db = MySQLdb.connect(user='root', db='devesh mysite', passwd='', host='')
         cursor = db.cursor()
         sql="select lname,ldesc,filetype,likes from lessons where lno=%s"
         cursor.execute(sql,[lno])
@@ -125,14 +134,23 @@ def  addlike(request):
     if "umail" not in request.session or request.session["umail"]=="":
         return HttpResponse("login to like")
     else:
+        umail=request.session['umail']
         lno=int(request.GET["lno"])
-        db = MySQLdb.connect(user='root', db='mysite', passwd='', host='')
+        db = MySQLdb.connect(user='root', db='devesh mysite', passwd='', host='')
         cursor = db.cursor()
-        sql="update lessons set likes=likes+1 where lno=%s"
-        cursor.execute(sql,[lno])
-        db.commit()
+        sql="select * from lessonlike where lno=%s and likedby=%s"
+        cursor.execute(sql,[lno,umail])
+        results=cursor.fetchall()
+        msg="not added"
+        if not results:
+            sql="update lessons set likes=likes+1 where lno=%s"
+            cursor.execute(sql,[lno])
+            sql="insert into lessonlike values(%s,%s)"
+            cursor.execute(sql,[lno,umail])
+            db.commit()
+            msg="added"
         db.close()
-        return HttpResponse("added")
+        return HttpResponse(msg)
 
 
 
@@ -142,7 +160,7 @@ def removelesson(request,offset,newoffset):
     else:
         cid=int(offset)
         lno=int(newoffset)
-        db = MySQLdb.connect(user='root', db='mysite', passwd='', host='')
+        db = MySQLdb.connect(user='root', db='devesh mysite', passwd='', host='')
         cursor = db.cursor()
         sql="select cname,owner from courses where cid=%s"
         cursor.execute(sql,[cid])
@@ -161,7 +179,7 @@ def removelesson(request,offset,newoffset):
             results=cursor.fetchall()
             fname=results[0][0]
 
-            os.remove("c:/djangotest/mysite/static/lessons/"+cname+"/"+fname)
+            os.remove("c:/djangotest/devesh mysite/static/lessons/"+cname+"/"+fname)
 
             sql="delete from lessons where cid=%s and lno=%s"
             cursor.execute(sql,[cid,lno])
@@ -186,7 +204,7 @@ def uploadlesson(request):
         msg="u entered empty form"
     else:
         cid=request.POST["cid"]
-        db = MySQLdb.connect(user='root', db='mysite', passwd='', host='')
+        db = MySQLdb.connect(user='root', db='devesh mysite', passwd='', host='')
         cursor = db.cursor()
         sql="select cname from courses where cid=%s"
         cursor.execute(sql,[cid])
@@ -262,7 +280,7 @@ def uploadlesson(request):
 
 
 def checklesson(lname):
-    db = MySQLdb.connect(user='root', db='mysite', passwd='', host='')
+    db = MySQLdb.connect(user='root', db='devesh mysite', passwd='', host='')
     cursor = db.cursor()
     sql="select lname from lessons where lname=%s"
     cursor.execute(sql,[lname])
@@ -275,7 +293,7 @@ def checklesson(lname):
     return
 
 def notify(cid,cname):
-    db = MySQLdb.connect(user='root', db='mysite', passwd='', host='')
+    db = MySQLdb.connect(user='root', db='devesh mysite', passwd='', host='')
     cursor = db.cursor()
     sql="select uid from enrollments where cid=%s"
     cursor.execute(sql,[cid])

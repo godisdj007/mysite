@@ -1,0 +1,111 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Untitled Document</title>
+
+    <script type="text/javascript">
+        function checkresult(answer)
+        {
+            var flag= 0,qt;
+            qt=parseInt(document.getElementById("qt").value);
+           if(typeof(Storage)!=="undefined")
+            {
+                if (!sessionStorage.count)
+                    sessionStorage.count=0;
+            }
+            else
+                document.getElementById("result").innerHTML="Sorry, your browser does not support web storage...";
+
+           if(qt==1)
+           {
+               delete sessionStorage.count;
+               sessionStorage.count=0;
+           }
+             for (var i=1; i<=4; i++)
+            {
+                if(document.getElementById(i).checked)
+                {
+                    flag=1;
+                    if(answer== document.getElementById(i).value)
+                    {
+                        sessionStorage.count=Number(sessionStorage.count)+1;
+                        document.getElementById("result").innerHTML="Right Answer "+sessionStorage.count;
+                    }
+                    else
+                    {
+                        document.getElementById("result").innerHTML="Wrong Answer ";
+                    }
+                    document.getElementById("marks").value=Number(sessionStorage.count);
+                    document.getElementById("submit1").disabled=true;
+
+                }
+            }
+            if(flag==0)
+            {
+                alert("PLEASE SELECT OPTION..OTHERWISE SKIP THIS ONE");
+            }
+
+        }
+
+
+    </script>
+</head>
+
+<body >
+<a href="/home/" >home</a><br /><br />
+{% if msg %}
+    <strong>{{ msg }}</strong><br/><br/>
+    <a href="/assignment/{{ cid }}">GO BACK TO OTHER ASSIGNMENT</a><br/>
+
+    <strong>Your Rank is {{ pos }}th out of {{ usernum }} persons...</strong><br/><br/>
+{% else %}
+<p><strong>ASSIGNMENT :[{{ asid }}]:{{ x }}</strong></p>
+{% endif %}
+<input type="hidden" name="cid" id="cid" value="{{cid}}"  />
+<input type="hidden" name="asid" id="asid" value="{{asid}}"  />
+<input type="hidden" name="type" id="type" value="{{type}}"  />
+<input type="hidden" name="qt" id="qt" value="{{qt}}"  />
+
+<ul>
+
+    {% ifequal type 'mcq' %}
+
+        <strong>[{{qt }}]:&nbsp;&nbsp;{{subresult.3}}</strong><br  />
+        {% for  opt in arr  %}
+
+                <input type="radio" name="option" id="{{ forloop.counter }}" value="{{opt}}"/>
+                <strong>[{{forloop.counter }}]:&nbsp;&nbsp;{{opt}}</strong><br  />
+
+        {% endfor %}
+        <input type="button" id="submit1" value="SUBMIT ANSWER" onclick="checkresult('{{subresult.5}}')"/>
+
+        {% ifequal num qt %}
+            <form action="/finishassignment/" method="get">
+                <input type="hidden" name="marks" id="marks" value=""  />
+                <input type="hidden" name="cid1" id="cid1" value="{{cid}}"  />
+                <input type="hidden" name="asid1" id="asid1" value="{{asid}}"  />
+                <input type="submit" value="FINISH" />
+              <!--  <a href="/finishassignment/?asid={{asid}}&cid={{cid}}"  >FINISH</a><br/>-->
+            </form>
+        {% else %}
+            <a href="/viewassignment/?asid={{asid}}&cid={{cid}}&type={{type}}&qt={{qt}}" >NEXT</a><br/>
+        {% endifequal %}
+        <strong>[ANSWER]:&nbsp;&nbsp;{{subresult.5}}</strong><br  />
+    {% else %}
+        {% for row in result1 %}
+            <strong>[{{forloop.counter }}]:&nbsp;&nbsp;{{row.3}}</strong><br  />
+        {% endfor %}
+    {% endifequal %}
+
+</ul>
+
+
+
+{{ num }}={{ qt }}
+<br/>
+<p id=extra></p>
+
+<p id="result"></p>
+</body>
+</html>
